@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CanineConnect.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class mssqllocal_migration_307 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -37,7 +37,7 @@ namespace CanineConnect.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Age = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Age = table.Column<DateOnly>(type: "date", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     HomeAddressId = table.Column<int>(type: "int", nullable: false)
@@ -115,7 +115,7 @@ namespace CanineConnect.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Sex = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Weight = table.Column<decimal>(type: "decimal(6,1)", nullable: false),
-                    Age = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Age = table.Column<DateOnly>(type: "date", nullable: true),
                     Avaliable = table.Column<bool>(type: "bit", nullable: false),
                     Descripton = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MedicalDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),

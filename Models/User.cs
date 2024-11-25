@@ -12,7 +12,7 @@ namespace CanineConnect.Models
         [Required]
         public string? Email { get; set; }
         [Required]
-        public DateTime Age { get; set; }
+        public DateOnly Age { get; set; }
         [Required]
         public string? Password { get; set; }
         public string? Phone { get; set; }

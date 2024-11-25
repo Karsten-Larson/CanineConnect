@@ -93,8 +93,8 @@ namespace CanineConnect.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("Age")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly?>("Age")
+                        .HasColumnType("date");
 
                     b.Property<bool>("Avaliable")
                         .HasColumnType("bit");
@@ -232,8 +232,8 @@ namespace CanineConnect.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("Age")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("Age")
+                        .HasColumnType("date");
 
                     b.Property<string>("Email")
                         .IsRequired()

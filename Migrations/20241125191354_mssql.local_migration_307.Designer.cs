@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CanineConnect.Migrations
 {
     [DbContext(typeof(CanineConnectContext))]
-    [Migration("20241125030054_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241125191354_mssql.local_migration_307")]
+    partial class mssqllocal_migration_307
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -96,8 +96,8 @@ namespace CanineConnect.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("Age")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly?>("Age")
+                        .HasColumnType("date");
 
                     b.Property<bool>("Avaliable")
                         .HasColumnType("bit");
@@ -235,8 +235,8 @@ namespace CanineConnect.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("Age")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("Age")
+                        .HasColumnType("date");
 
                     b.Property<string>("Email")
                         .IsRequired()
