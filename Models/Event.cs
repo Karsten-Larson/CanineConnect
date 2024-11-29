@@ -11,6 +11,9 @@ namespace CanineConnect.Models
         public DateTime? Date { get; set; }
 
         [Required]
+        public string? Description { get; set; }
+
+        [Required]
         public int LocationId { get; set; }
         public Address? Location { get; set; }
 
