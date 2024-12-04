@@ -11,7 +11,7 @@ public class SeedData
             serviceProvider.GetRequiredService<
                 DbContextOptions<CanineConnectContext>>());
 
-        if (context == null || context.User == null || context.Address == null)
+        if (context is null || context.User is null || context.Address is null)
         {
             throw new NullReferenceException(
                 "Null BlazorWebAppMoviesContext or Student DbSet");

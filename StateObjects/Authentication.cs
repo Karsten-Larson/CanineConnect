@@ -33,7 +33,7 @@ namespace CanineConnect.StateObjects
                     .Where(e => e.Password == password)
                     .FirstOrDefaultAsync();
 
-                if (user == null)
+                if (user is null)
                 {
                     throw new ArgumentException("Email and/or Password is incorrect");
                 }
