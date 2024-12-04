@@ -1,0 +1,71 @@
+﻿@page "/faq"
+
+<style>
+    details[open] summary svg {
+        rotate: 45deg;
+    }
+    .mb-8{
+        margin: 10px auto;
+        font-weight: bold;
+        text-align: center;
+        max-width: 1100px;
+    }
+    h1{
+        margin: 40px auto;
+        padding: 20px;
+        font-size: 2.5rem;
+        text-align: center;
+        color: forestgreen;
+    }
+    .question{
+        text-align: center;
+    }
+</style>
+
+<section class="faq-section">
+    <h1>FAQ</h1>
+    <p class="mb-8">Have questions? Explore our Frequently Asked Questions section for quick answers. If your question isn't answered, feel free to reach out to our helpful support team!</p>
+    <div class="question">
+        <details class="bg-gray-100 border border-gray-100 p-4 space-y-4 open:bg-white">
+            <summary class="flex justify-content-between transition cursor-pointer font-medium">
+                When will my order ship?
+
+                <svg xmlns="http://w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24" height="24"
+                     viewBox="0 0 24 24" stroke-width="2"
+                     stroke="currentColor" fill="none" stroke-linecap="round"
+                     stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M12 5l0 14" />
+                    <path d="M5 12l14 0" />
+                </svg>
+            </summary>
+            <p>
+                Orders typically ship within 1-2 business days. During peak holiday season, please allow up to 3 business days for processing and shipping. You will receive an email
+                notification with tracking information once your order has shipped.
+            </p>
+        </details>
+    </div>
+    <div class="question">
+        <details class="bg-gray-100 border border-gray-100 p-4 space-y-4 open:bg-white">
+            <summary class="flex justify-content-between transition cursor-pointer font-medium">
+                What are your shipping rates?
+
+                <svg xmlns="http://w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24" height="24"
+                     viewBox="0 0 24 24" stroke-width="2"
+                     stroke="currentColor" fill="none" stroke-linecap="round"
+                     stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M12 5l0 14" />
+                    <path d="M5 12l14 0" />
+                </svg>
+            </summary>
+            <p>
+                Shipping rates are calculated based on your order total and shipping destination. You can see the estimated shipping cost for your order at checkout.
+            </p>
+        </details>
+    </div>
+</section>
+
+@code {
+
+}
