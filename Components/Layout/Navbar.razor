@@ -1,4 +1,9 @@
-﻿<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+﻿@rendermode InteractiveServer
+
+@using CanineConnect.StateObjects
+@inject State state
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <!-- Logo/Name (ADD LOGO)-->
         <a class="navbar-brand" href="#">Canine Connect</a>
@@ -32,18 +37,29 @@
         </button>
     </form>
 
-    <ul class="nav navbar-nav me-auto">
-        <!-- Tab 5 (CHANGE REF TO CORRECT WEBPAGE)-->
-        <li class="nav-item">
-            <a class="nav-link" href="#"> Sign Up</a>
-        </li>
-        <!-- Tab 6 (CHANGE REF TO CORRECT WEBPAGE)-->
-        <li class="nav-item">
-            <a class="nav-link" href="/login"> Login</a>
-        </li>
-    </ul>
+    @if (!state.IsUser())
+    {
+        <ul class="nav navbar-nav me-auto">
+            <!-- Tab 5 (CHANGE REF TO CORRECT WEBPAGE)-->
+            <li class="nav-item">
+                <a class="nav-link" href="#"> Sign Up</a>
+            </li>
+            <!-- Tab 6 (CHANGE REF TO CORRECT WEBPAGE)-->
+            <li class="nav-item">
+                <a class="nav-link" href="/login"> Login</a>
+            </li>
+        </ul>
+    } else
+    {
+        <p class="text-white">@state.ActiveUser.Email</p>
+    }
 </nav>
 
 @code {
+    protected override void OnInitialized()
+    {
+        state.Notify += () => InvokeAsync(StateHasChanged);
 
+        base.OnInitialized();
+    }
 }
