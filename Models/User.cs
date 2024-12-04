@@ -21,8 +21,5 @@ namespace CanineConnect.Models
         [Required]
         public int HomeAddressId { get; set; }
         public Address? HomeAddress { get; set; }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public string? Name { get; set; }
     }
 }
