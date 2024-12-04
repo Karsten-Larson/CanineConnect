@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CanineConnect.Migrations
 {
     [DbContext(typeof(CanineConnectContext))]
-    [Migration("20241125191354_mssql.local_migration_307")]
-    partial class mssqllocal_migration_307
+    [Migration("20241203234817_mssql.local_migration_631")]
+    partial class mssqllocal_migration_631
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -141,6 +141,10 @@ namespace CanineConnect.Migrations
                         .IsRequired()
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("HostId")
                         .HasColumnType("int");
 
@@ -222,7 +226,8 @@ namespace CanineConnect.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Shelter");
                 });
@@ -251,6 +256,10 @@ namespace CanineConnect.Migrations
 
                     b.Property<string>("LastName")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")

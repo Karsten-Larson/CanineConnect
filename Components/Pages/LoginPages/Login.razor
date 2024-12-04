@@ -1,0 +1,72 @@
+﻿@rendermode InteractiveServer
+
+@using CanineConnect.Data
+@using CanineConnect.Models
+@using CanineConnect.StateObjects
+@using Microsoft.EntityFrameworkCore
+
+@inject IDbContextFactory<CanineConnectContext> DbContextFactory
+@inject State state
+
+<div class="container">
+    <form>
+        <div class="card">
+            <div class="card-body">
+
+                <!-- Email input -->
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <label class="form-label" for="email">Email address</label>
+                    <input type="email" id="password" class="form-control" @bind="email" @bind:event="oninput" />
+                </div>
+
+                <!-- Password input -->
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <label class="form-label" for="password">Password</label>
+                    <input type="password" id="password" class="form-control" @bind="password" @bind:event="oninput" />
+                </div>
+
+                <!-- Submit button -->
+                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4 mx-auto" @onclick="HandleLogin">Sign in</button>
+            </div>
+        </div>
+
+        <!--Sign in error message-->
+        @if (errorMsg != null)
+        {
+            <div class="alert alert-warning" role="alert">
+                @errorMsg
+            </div>
+        }
+
+        <!-- Register buttons -->
+        <div class="text-center mt-4">
+            <p>Not a member? <a href="/signup">Register</a></p>
+        </div>
+    </form>
+</div>
+
+@code {
+    string email = "Email";
+    string password = "Password";
+
+    string? errorMsg;
+
+    async Task HandleLogin()
+    {
+        Authentication authentication = new Authentication(DbContextFactory);
+
+        try
+        {
+            state.ActiveUser = await authentication.AuthenticateUser(email, password);
+            errorMsg = null;
+        }
+        catch (ArgumentException ex)
+        {
+            errorMsg = ex.Message.ToString();
+        }
+        catch
+        {
+            errorMsg = "System Error";
+        }
+    }
+}

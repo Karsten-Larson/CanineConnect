@@ -6,14 +6,14 @@ namespace CanineConnect.Models
     {
         public int Id { get; set; }
         [Required]
-        public string? Street { get; set; }
+        public required string Street { get; set; }
         [Required]
-        public string? City { get; set; }
+        public required string City { get; set; }
         [Required]
-        public string? State { get; set; }
+        public required string State { get; set; }
         [Required]
-        public string? PostalCode { get; set; }
+        public required string PostalCode { get; set; }
         [Required]
-        public string? Country { get; set; }
+        public required string Country { get; set; }
     }
 }
