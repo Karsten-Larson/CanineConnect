@@ -1,7 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace CanineConnect.Models
 {
+    [Index(nameof(UserId), IsUnique = true)]
     public class Shelter
     {
         public int Id { get; set; }
