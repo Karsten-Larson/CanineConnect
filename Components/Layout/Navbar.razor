@@ -51,7 +51,20 @@
         </ul>
     } else
     {
-        <p class="text-white">@state.ActiveUser.Email</p>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="profileDropdown" role="button" @onclick="ToggleDropdown" aria-expanded="@dropdownVisible.ToString()">
+                    @state.ActiveUser.Email
+                </a>
+
+                <ul class="dropdown-menu" aria-labelledby="profileDropdown" style="@dropdownStyle">
+                    <li><a class="dropdown-item" href="#">Update Profile</a></li>
+                    <li><a class="dropdown-item" href="#">Applications</a></li>
+                    <li><a class="dropdown-item" href="#">Messages</a></li>
+                    <li><a class="dropdown-item" href="#">Sign Out</a></li>
+                </ul>
+            </li>
+        </ul>
     }
 </nav>
 
@@ -62,4 +75,14 @@
 
         base.OnInitialized();
     }
+
+    private bool dropdownVisible = false;
+
+    private string dropdownStyle => dropdownVisible ? "display:block;" : "display:none;";
+
+    private void ToggleDropdown()
+    {
+        dropdownVisible = !dropdownVisible;
+    }
+
 }
