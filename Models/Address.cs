@@ -4,14 +4,6 @@ namespace CanineConnect.Models
 {
     public class Address
     {
-        public Address()
-        {
-            Street = "";
-            City = "";
-            State = "";
-            PostalCode = "";
-            Country = "";
-        }
 
         public int Id { get; set; }
         [Required]

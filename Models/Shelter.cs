@@ -18,6 +18,7 @@ namespace CanineConnect.Models
 
         [Required]
         public int UserId { get; set; }
+        [DeleteBehavior(DeleteBehavior.Restrict)]
         public User? User { get; set; }
     }
 }
