@@ -11,17 +11,18 @@ public class SeedData
             serviceProvider.GetRequiredService<
                 DbContextOptions<CanineConnectContext>>());
 
-        if (context == null || context.User == null || context.Address == null)
+        if (context is null || context.User is null || context.Address is null || context.Event is null || context.Shelter is null)
         {
             throw new NullReferenceException(
                 "Null BlazorWebAppMoviesContext or Student DbSet");
         }
 
-        if (context.User.Any() || context.Address.Any())
+        if (context.User.Any() || context.Address.Any() || context.Event.Any() || context.Shelter.Any())
         {
             return;
         }
 
+        // Addresses
         Address address1 = new Address
         {
             Street = "123 Easy St",
@@ -46,36 +47,112 @@ public class SeedData
             Country = "USA",
             PostalCode = "58102"
         };
+        Address address4 = new Address
+        {
+            Street = "Lincoln Park 14th St S",
+            City = "Fargo",
+            State = "North Dakota",
+            Country = "USA",
+            PostalCode = "58103"
+        };
 
-        context.Address.AddRange(address1, address2, address3);
+        // Users
+        User user1 = new User
+        {
+            FirstName = "Anne",
+            LastName = "Denton",
+            Email = "anne.denton@ndsu.edu",
+            Password = "1234",
+            Age = new DateOnly(2004, 10, 27),
+            HomeAddress = address1,
+        };
+        User user2 = new User
+        {
+            FirstName = "Anne",
+            LastName = "Denton",
+            Email = "anne.denton@ndsu.edu",
+            Password = "1234",
+            Age = new DateOnly(2004, 10, 27),
+            HomeAddress = address1,
+        };
+        User user3 = new User
+        {
+            FirstName = "James",
+            LastName = "Dean",
+            Email = "james.dean@ndsu.edu",
+            Password = "abcd",
+            Age = new DateOnly(2005, 1, 17),
+            HomeAddress = address2,
+        };
+        User user4 = new User
+        {
+            FirstName = "Oksana",
+            LastName = "Myronovych",
+            Email = "oksana.myronovych@ndsu.edu",
+            Password = "2222",
+            Age = new DateOnly(1970, 12, 2),
+            HomeAddress = address3,
+        };
 
-        context.User.AddRange(
-            new User
-            {
-                FirstName = "Anne",
-                LastName = "Denton",
-                Email = "anne.denton@ndsu.edu",
-                Password = "1234",
-                Age = new DateOnly(2004, 10, 27),
-                HomeAddress = address1,
-            },
-           new User
-           {
-               FirstName = "James",
-               LastName = "Dean",
-               Email = "james.dean@ndsu.edu",
-               Password = "abcd",
-               Age = new DateOnly(2005, 1, 17),
-               HomeAddress = address2,
-           }, new User
-           {
-               FirstName = "Oksana",
-               LastName = "Myronovych",
-               Email = "oksana.myronovych@ndsu.edu",
-               Password = "2222",
-               Age = new DateOnly(1970, 12, 2),
-               HomeAddress = address3,
-           });
+        // Shelters 
+        Shelter shelter1 = new Shelter
+        {
+            ShelterName = "Humane Society",
+            Description = "No Kill Dog Shelter based out of Fargo, North Dakota",
+            User = user1,
+        };
+        Shelter shelter2 = new Shelter
+        {
+            ShelterName = "The Pound INC",
+            Description = "Pitbull and Rottweiler only dog pound",
+            User = user3,
+        };
+        Shelter shelter3 = new Shelter
+        {
+            ShelterName = "Fargo PetSmart",
+            Description = "Fargo branch of PetSmart",
+            User = user4,
+        };
+
+        // Events
+        Event event1 = new Event
+        {
+            Name = "Animal Rescue Day",
+            Date = new DateTime(new DateOnly(2025, 1, 1), new TimeOnly(14, 0)),
+            Description = "Start the new year off right by volunteering at the dog shelter.",
+            Location = address4,
+            Host = shelter1
+        };
+        Event event2 = new Event
+        {
+            Name = "Christmas at the Pound",
+            Date = new DateTime(new DateOnly(2024, 12, 25), new TimeOnly(10, 0)),
+            Description = "Experience Christmas at the Pound with the dogs. Santa will join us to bring treats for the pups and humans too!",
+            Location = shelter2.User.HomeAddress,
+            Host = shelter2
+        };
+        Event event3 = new Event
+        {
+            Name = "Valentines Day At the Pound",
+            Date = new DateTime(new DateOnly(2025, 2, 14), new TimeOnly(16, 0)),
+            Description = "Spend Valentines day around dogs in need of a home. Bring a significant otehr to help and enjoy time together in service of these dogs and the community.",
+            Location = shelter2.User.HomeAddress,
+            Host = shelter2
+        };
+        Event event4 = new Event
+        {
+            Name = "Red, White, and Roof",
+            Date = new DateTime(new DateOnly(2025, 6, 4), new TimeOnly(12, 0)),
+            Description = "July 4th at Lincoln Park deserves to be celebrated with friends, fellow Americans, and dogs in need of a home. This event is an adoption event that requires volunteers to run smoothly. Please come and help out on our Nation's birthday!",
+            Location = address4,
+            Host = shelter3
+        };
+
+        // Add to the database
+        context.Address.AddRange(address1, address2, address3, address4);
+        context.User.AddRange(user1, user2, user3, user4);
+        context.Shelter.AddRange(shelter1, shelter2, shelter3);
+        context.Event.AddRange(event1, event2, event3, event4);
 
         context.SaveChanges();
     }

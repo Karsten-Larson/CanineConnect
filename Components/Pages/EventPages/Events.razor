@@ -1,0 +1,41 @@
+﻿@page "/events"
+
+@using CanineConnect.Data
+@using Models
+@using Microsoft.EntityFrameworkCore
+
+@inject IDbContextFactory<CanineConnectContext> DbContextFactory
+
+
+<PageTitle>Events</PageTitle>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="text-success text-center mb-2">Upcoming Events</h2>
+
+            <div class="d-grid gap-3">
+                @foreach (var e in _events)
+                {
+                    <EventCard ScheduledEvent="e" />
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    List<Event> _events = new List<Event>();
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        using (var context = DbContextFactory.CreateDbContext())
+        {
+            _events = await context.Event.OrderBy(e => e.Date).ToListAsync();
+        }
+
+        await base.OnInitializedAsync();
+    }
+}
