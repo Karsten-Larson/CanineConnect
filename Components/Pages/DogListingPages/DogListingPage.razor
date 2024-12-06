@@ -33,32 +33,10 @@
 
 <div class="container mt-1">
     <div class="row">
-    @if (_dogs.Count != 0)
-    {
-        @foreach (var dog in _dogs)
+        @if (_dogs.Count != 0)
         {
-            <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">@dog.Name</h4>
-                </div>
-
-                <div class="card-body">
-                    <ul>
-                        <li><strong class="text-forestgreen">Breed: </strong>@dog.Breed</li>
-                        <li><strong class="text-forestgreen">Birthdate: </strong>@dog.Age?.ToString("MMMM dd yyyy")</li>
-                        <li><strong class="text-forestgreen">Host Shelter: </strong>@dog.Shelter?.ShelterName</li>
-
-                    </ul>
-
-                    @if (dog.ThumbnailImage is not null)
-                    {
-                        <img class="card-img" src="data:image;base64,@System.Convert.ToBase64String(dog.ThumbnailImage)" />
-                    }
-                </div>
-
-            </div>
-            </div>
+            @foreach (var dog in _dogs)
+            {
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-header">
@@ -81,9 +59,9 @@
 
                     </div>
                 </div>
+            }
         }
-    }
-</div>
+    </div>
 </div>
 @code {
     private List<DogListing> _dogs = new List<DogListing>();
