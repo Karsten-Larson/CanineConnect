@@ -1,0 +1,53 @@
+﻿@page "/profile"
+
+@using Models
+@using StateObjects
+
+@inject State state
+
+<PageTitle>Profile</PageTitle>
+
+<div class="container mx-auto md-col-8">
+    @if (state.IsUser())
+    {
+        <h3>@name</h3>
+
+        <hr />
+
+        <h4>Personal Information</h4>
+        <ul>
+            <li>Email: @state.ActiveUser?.Email</li>
+            <li>Phone: @(state.ActiveUser?.Phone ?? "No Phone Provided")</li>
+            <li>Date of Birth: @state.ActiveUser?.Age.ToString("MMMM dd, yyyy")</li>
+        </ul>
+
+        <h4>Address Information</h4>
+        <ul>
+            <li>Street: @state.ActiveUser?.HomeAddress?.Street</li>
+            <li>City: @state.ActiveUser?.HomeAddress?.City</li>
+            <li>State: @state.ActiveUser?.HomeAddress?.State</li>
+            <li>Country: @state.ActiveUser?.HomeAddress?.Country</li>
+            <li>Postal Code: @state.ActiveUser?.HomeAddress?.PostalCode</li>
+            <li>Country: @state.ActiveUser?.HomeAddress?.Country</li>
+        </ul>
+    }
+    else
+    {
+        <h3>Profile Not Loaded</h3>
+    }
+</div>
+
+@code {
+    string name = "";
+
+    protected override void OnInitialized()
+    {
+        if (state.IsUser())
+        {
+            name = state.ActiveUser?.FirstName + " " + state.ActiveUser?.LastName;
+        }
+
+        base.OnInitialized();
+    }
+
+}

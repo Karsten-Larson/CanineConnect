@@ -2,6 +2,7 @@
 
 @using CanineConnect.StateObjects
 @inject State state
+@inject NavigationManager navigationManager
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
@@ -54,14 +55,14 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="profileDropdown" role="button" @onclick="ToggleDropdown" aria-expanded="@dropdownVisible.ToString()">
-                    @state.ActiveUser.Email
+                    @state.ActiveUser?.Email
                 </a>
 
                 <ul class="dropdown-menu" aria-labelledby="profileDropdown" style="@dropdownStyle">
-                    <li><a class="dropdown-item" href="#">Update Profile</a></li>
+                    <li><a class="dropdown-item" href="/profile">Profile</a></li>
                     <li><a class="dropdown-item" href="#">Applications</a></li>
                     <li><a class="dropdown-item" href="#">Messages</a></li>
-                    <li><a class="dropdown-item" href="#">Sign Out</a></li>
+                    <li><button class="dropdown-item" @onclick="SignOut">Sign Out</button></li>
                 </ul>
             </li>
         </ul>
@@ -85,4 +86,10 @@
         dropdownVisible = !dropdownVisible;
     }
 
+
+    private void SignOut()
+    {
+        state.ActiveUser = null;
+        navigationManager.NavigateTo("/");
+    }
 }

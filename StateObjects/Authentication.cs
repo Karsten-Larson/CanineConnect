@@ -31,6 +31,7 @@ namespace CanineConnect.StateObjects
                 var user = await context.User
                     .Where(e => e.Email == email)
                     .Where(e => e.Password == password)
+                    .Include(e => e.HomeAddress)
                     .FirstOrDefaultAsync();
 
                 if (user == null)
@@ -39,6 +40,35 @@ namespace CanineConnect.StateObjects
                 }
 
                 return user;
+            }
+        }
+
+        public async Task RegisterUser(string email, string password, string firstname, string lastname, DateOnly age, Address home_address, string? phone=null)
+        {
+            using (var context = _dbContextFactory.CreateDbContext())
+            {
+                bool userExists = await context.User
+                    .AnyAsync(e => e.Email == email);
+
+                if (userExists)
+                {
+                    throw new ArgumentException("Email is already used");
+                }
+
+                var registeredUser = new User
+                {
+                    Email = email,
+                    Password = password,
+                    FirstName = firstname,
+                    LastName = lastname,
+                    Age = age,
+                    HomeAddress = home_address,
+                    Phone = phone
+                };
+
+                await context.Address.AddAsync(home_address);
+                await context.User.AddAsync(registeredUser);
+                await context.SaveChangesAsync();
             }
         }
 

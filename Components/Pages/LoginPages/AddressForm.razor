@@ -1,0 +1,86 @@
+﻿@rendermode InteractiveServer
+
+@using CanineConnect.Data
+@using CanineConnect.Models
+@using Microsoft.AspNetCore.Mvc
+@using Microsoft.EntityFrameworkCore
+
+
+
+<!-- State input -->
+<div data-mdb-input-init class="form-outline mb-4">
+    <label class="form-label" for="street">Street</label>
+    <input type="text" id="street" class="form-control" @bind="Street" @bind:event="oninput" required />
+</div>
+
+<!-- City input -->
+<div data-mdb-input-init class="form-outline mb-4">
+    <label class="form-label" for="city">City</label>
+    <input type="text" id="city" class="form-control" @bind="City" @bind:event="oninput" required />
+</div>
+
+<!-- State input -->
+<div data-mdb-input-init class="form-outline mb-4">
+    <label class="form-label" for="state">State</label>
+    <input type="text" id="state" class="form-control" @bind="State" @bind:event="oninput" required />
+</div>
+
+<!-- Country input -->
+<div data-mdb-input-init class="form-outline mb-4">
+    <label class="form-label" for="country">Country</label>
+    <input type="text" id="country" class="form-control" @bind="Country" @bind:event="oninput" required />
+</div>
+
+<!-- PostalCode input -->
+<div data-mdb-input-init class="form-outline mb-4">
+    <label class="form-label" for="postal-code">Postal Code</label>
+    <input type="text" id="postal-code" class="form-control" @bind="PostalCode" @bind:event="oninput" required />
+</div>
+
+
+<!--Sign in error message-->
+@if (errorMsg != null)
+{
+    <div class="alert alert-warning" role="alert">
+        @errorMsg
+    </div>
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public required Address EditableAddress { get; set; }
+
+    string? errorMsg;
+
+    string Street
+    {
+        get { return EditableAddress.Street; }
+        set { EditableAddress.Street = value; }
+    }
+    string City
+    {
+        get { return EditableAddress.City; }
+        set { EditableAddress.City = value; }
+    }
+    string State
+    {
+        get { return EditableAddress.State; }
+        set { EditableAddress.State = value; }
+    }
+    string PostalCode
+    {
+        get { return EditableAddress.PostalCode; }
+        set { EditableAddress.PostalCode = value; }
+    }
+    string Country
+    {
+        get { return EditableAddress.Country; }
+        set { EditableAddress.Country = value; }
+    }
+
+    // string street = "";
+    // string city = "";
+    // string state = "";
+    // string postalCode = "";
+    // string country = "";
+}

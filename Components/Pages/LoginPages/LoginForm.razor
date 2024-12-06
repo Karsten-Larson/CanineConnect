@@ -5,6 +5,7 @@
 @using CanineConnect.StateObjects
 @using Microsoft.EntityFrameworkCore
 
+@inject NavigationManager NavigationManager
 @inject IDbContextFactory<CanineConnectContext> DbContextFactory
 @inject State state
 
@@ -46,8 +47,11 @@
 </div>
 
 @code {
-    string email = "Email";
-    string password = "Password";
+    [Parameter]
+    public string? Redirect { get; set; }
+
+    string email = "";
+    string password = "";
 
     string? errorMsg;
 
@@ -59,6 +63,11 @@
         {
             state.ActiveUser = await authentication.AuthenticateUser(email, password);
             errorMsg = null;
+
+            if (Redirect is not null)
+            {
+                NavigationManager.NavigateTo(Redirect);
+            }
         }
         catch (ArgumentException ex)
         {

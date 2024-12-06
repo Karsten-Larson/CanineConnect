@@ -1,0 +1,122 @@
+﻿@rendermode InteractiveServer
+
+@using CanineConnect.Data
+@using CanineConnect.Models
+@using CanineConnect.StateObjects
+@using Microsoft.EntityFrameworkCore
+
+@inject NavigationManager NavigationManager
+@inject IDbContextFactory<CanineConnectContext> DbContextFactory
+@inject State state
+
+<div class="container">
+    <form>
+        <div class="card">
+            <div class="card-body">
+
+                <AddressForm EditableAddress="editableAddress" />
+
+                <!-- Email input -->
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <label class="form-label" for="email">Email address</label>
+                    <input type="email" id="password" class="form-control" @bind="email" @bind:event="oninput" />
+                </div>
+
+                <!-- Password input -->
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <label class="form-label" for="password">Password</label>
+                    <input type="text" id="password" class="form-control" @bind="password" @bind:event="oninput" />
+                </div>
+
+                <!-- First Name input -->
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <label class="form-label" for="firstname">First Name</label>
+                    <input type="text" id="firstname" class="form-control" @bind="firstname" @bind:event="oninput" />
+                </div>
+
+                <!-- Last Name input -->
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <label class="form-label" for="lastname">Last Name</label>
+                    <input type="text" id="lastname" class="form-control" @bind="lastname" @bind:event="oninput" />
+                </div
+
+                <!-- Phone input -->
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <label class="form-label" for="phonenumber">Phone Number</label>
+                    <input type="text" id="phonenumber" class="form-control" @bind="phone" @bind:event="oninput" />
+                </div>
+
+                <!-- Birthday input -->
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <label class="form-label" for="birthdate">Birthdate</label>
+                    <input type="date" id="birthdate" class="form-control" @bind="age" @bind:event="oninput" />
+                </div>
+
+                <!-- Submit button -->
+                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4 mx-auto" @onclick="HandleRegister">Register</button>
+            </div>
+        </div>
+
+        <!--Sign in error message-->
+        @if (errorMsg != null)
+        {
+            <div class="alert alert-warning" role="alert">
+                @errorMsg
+            </div>
+        }
+
+        <!-- Register buttons -->
+        <div class="text-center mt-4">
+            <p>Already a member? <a href="/login">Login</a></p>
+        </div>
+    </form>
+</div>
+
+@code {
+    [Parameter]
+    public string? Redirect { get; set; }
+
+    Address editableAddress = new Address
+    {
+        City = "",
+        Street = "",
+        State = "",
+        PostalCode = "",
+        Country = "",
+    };
+
+    string email = "";
+    string password = "";
+    string firstname = "";
+    string lastname = "";
+    string phone = "";
+    DateOnly age = new DateOnly(2000, 1, 1);
+
+    string? errorMsg;
+
+    async Task HandleRegister()
+    {
+        Authentication authentication = new Authentication(DbContextFactory);
+
+        try
+        {
+            await authentication.RegisterUser(email, password, firstname, lastname, age, editableAddress, (phone == "") ? null : phone);
+            state.ActiveUser = await authentication.AuthenticateUser(email, password);
+            errorMsg = null;
+
+            if (Redirect is not null)
+            {
+                NavigationManager.NavigateTo(Redirect);
+            }
+        }
+        catch (ArgumentException ex)
+        {
+            errorMsg = ex.Message.ToString();
+        }
+        catch (Exception ex)
+        {
+            // errorMsg = "System Error";
+            errorMsg = ex.Message.ToString();
+        }
+    }
+}

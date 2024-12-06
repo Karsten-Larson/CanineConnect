@@ -1,19 +1,21 @@
 ﻿@using Models
 
-<div class="card rounded-3 bg-light">
-    <div class="card-body">
+<div class="card rounded">
+    <div class="card-header bg-white">
         <h3 class="card-title">@ScheduledEvent.Name</h3>
+    </div>
+    <div class="card-body bg-light">
         <div class="card-text text-muted">
-            <p><strong class="text-success">Date: </strong>@ScheduledEvent.Date?.ToString("MMMM dd, yyyy")</p>
-            <p><strong class="text-success">Time: </strong>@ScheduledEvent.Date?.ToString("hh:mm tt")</p>
-            <p><strong class="text-success">Location: </strong>@($"{ScheduledEvent.Location?.Street}, {ScheduledEvent.Location?.City}, {ScheduledEvent.Location?.State}, {ScheduledEvent.Location?.PostalCode} {ScheduledEvent.Location?.Country}")</p>
+            <p><strong class="text-forestgreen">Date: </strong>@ScheduledEvent.Date?.ToString("MMMM dd, yyyy")</p>
+            <p><strong class="text-forestgreen">Time: </strong>@ScheduledEvent.Date?.ToString("hh:mm tt")</p>
+            <p><strong class="text-forestgreen">Location: </strong>@($"{ScheduledEvent.Location?.Street}, {ScheduledEvent.Location?.City}, {ScheduledEvent.Location?.State}, {ScheduledEvent.Location?.PostalCode} {ScheduledEvent.Location?.Country}")</p>
             <p>@ScheduledEvent.Description</p>
         </div>
-        <button class="btn btn-success p-2">Message Shelter</button>
+        <button class="btn btn-forestgreen p-2">Message Shelter</button>
     </div>
 </div>
 
 @code {
-    [Parameter]
+    [Parameter, EditorRequired]
     public required Event ScheduledEvent { get; set; }
 }

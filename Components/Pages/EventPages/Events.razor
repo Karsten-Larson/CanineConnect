@@ -15,9 +15,9 @@
             <h2 class="text-success text-center mb-2">Upcoming Events</h2>
 
             <div class="d-grid gap-3">
-                @foreach (var e in _events)
+                @foreach (Event e in _events)
                 {
-                    <EventCard ScheduledEvent="e" />
+                    <EventCard ScheduledEvent="@e" />
                 }
             </div>
         </div>
