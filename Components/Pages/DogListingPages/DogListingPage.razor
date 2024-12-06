@@ -1,0 +1,80 @@
+﻿@page "/doglistings"
+
+@using CanineConnect.Data
+@using Models
+@using Microsoft.EntityFrameworkCore
+
+@inject IDbContextFactory<CanineConnectContext> DbContextFactory
+
+<style>
+    div.card {
+        margin: 5px;
+        border: 1px solid #ccc;
+        float: left;
+        width: 400px;
+    }
+
+        div.card:hover {
+            border: 1px solid #777;
+        }
+
+        div.card img {
+            width: 100%;
+            height: auto;
+        }
+
+    div.card {
+        padding: 15px;
+        text-align: center;
+    }
+</style>
+
+<h2 class="text-success text-center mb-2">Dog Gallery</h2>
+
+<div class="container mt-1">
+    <div class="row">
+        @if (_dogs.Count != 0)
+        {
+            @foreach (var dog in _dogs)
+            {
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">@dog.Name</h4>
+                        </div>
+
+                        <div class="card-body">
+                            <ul>
+                                <li><strong class="text-forestgreen">Breed: </strong>@dog.Breed</li>
+                                <li><strong class="text-forestgreen">Birthdate: </strong>@dog.Age?.ToString("MMMM dd yyyy")</li>
+                                <li><strong class="text-forestgreen">Host Shelter: </strong>@dog.Shelter?.ShelterName</li>
+
+                            </ul>
+
+                            @if (dog.ThumbnailImage is not null)
+                            {
+                                <img class="card-img" src="data:image;base64,@System.Convert.ToBase64String(dog.ThumbnailImage)" />
+                            }
+                        </div>
+
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+@code {
+    private List<DogListing> _dogs = new List<DogListing>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        using (var context = await DbContextFactory.CreateDbContextAsync())
+        {
+            _dogs = await context.DogListing
+                .Include(e => e.Shelter)
+                .ToListAsync();
+        }
+
+        await base.OnInitializedAsync();
+    }
+}

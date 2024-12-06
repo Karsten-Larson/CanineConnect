@@ -12,9 +12,9 @@
 <div class="container">
     <form>
         <div class="card">
-            <div class="card-body">
+            <form class="card-body">
 
-                <AddressForm EditableAddress="editableAddress" />
+                <AddressForm EditableAddress="homeAddress" />
 
                 <!-- Email input -->
                 <div data-mdb-input-init class="form-outline mb-4">
@@ -49,12 +49,12 @@
                 <!-- Birthday input -->
                 <div data-mdb-input-init class="form-outline mb-4">
                     <label class="form-label" for="birthdate">Birthdate</label>
-                    <input type="date" id="birthdate" class="form-control" @bind="age" @bind:event="oninput" />
+                    <input type="date" id="birthdate" class="form-control" @bind="birthdate" @bind:event="oninput" />
                 </div>
 
                 <!-- Submit button -->
                 <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4 mx-auto" @onclick="HandleRegister">Register</button>
-            </div>
+            </form>
         </div>
 
         <!--Sign in error message-->
@@ -74,9 +74,9 @@
 
 @code {
     [Parameter]
-    public string? Redirect { get; set; }
+    public string? Redirect { get; set; } = "/";
 
-    Address editableAddress = new Address
+    Address homeAddress = new Address
     {
         City = "",
         Street = "",
@@ -90,17 +90,25 @@
     string firstname = "";
     string lastname = "";
     string phone = "";
-    DateOnly age = new DateOnly(2000, 1, 1);
+    DateOnly birthdate = new DateOnly(2000, 1, 1);
 
     string? errorMsg;
 
-    async Task HandleRegister()
+    private async Task HandleRegister()
     {
         Authentication authentication = new Authentication(DbContextFactory);
 
+        email = email.Trim();
+        password = password.Trim();
+        firstname = firstname.Trim();
+        lastname = lastname.Trim();
+        phone = phone.Trim();
+
         try
         {
-            await authentication.RegisterUser(email, password, firstname, lastname, age, editableAddress, (phone == "") ? null : phone);
+            ValidateRegister(email, password, firstname, lastname, birthdate, homeAddress, phone);
+
+            await authentication.RegisterUser(email, password, firstname, lastname, birthdate, homeAddress, (phone == "") ? null : phone);
             state.ActiveUser = await authentication.AuthenticateUser(email, password);
             errorMsg = null;
 
@@ -118,5 +126,59 @@
             // errorMsg = "System Error";
             errorMsg = ex.Message.ToString();
         }
+    }
+
+    private void ValidateRegister(string email, string password, string firstname, string lastname, DateOnly birthday, Address homeAddress, string? phone=null)
+    {
+
+        IsValidEmail(email);
+        IsValidPassword(password);
+
+        if (string.IsNullOrEmpty(firstname)) throw new ArgumentException("Invalid firstname");
+        if (string.IsNullOrEmpty(lastname)) throw new ArgumentException("Invalid lastname");
+
+        IsValidAge(birthday);
+        IsValidAddress(homeAddress);
+    }
+
+    private void IsValidEmail(string email)
+    {
+        if (email.EndsWith("."))
+        {
+            throw new ArgumentException("Invalid Email");
+        }
+
+        try
+        {
+            var addr = new System.Net.Mail.MailAddress(email);
+            if (addr.Address != email) throw new Exception();
+        } catch
+        {
+            throw new ArgumentException("Invalid Email");
+        }
+    }
+
+    private void IsValidPassword(string password)
+    {
+        if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Enter a password.");
+        if (password.Length < 8) throw new ArgumentException("Password is too short.");
+        if (password.Length > 20) throw new ArgumentException("Password is too long.");
+    }
+
+    private void IsValidAge(DateOnly birthday)
+    {
+        int age = DateOnly.FromDateTime(DateTime.Now).Year - birthday.Year;
+
+        if (age < 0 | age > 100) throw new ArgumentException("Invalid age for a dog.");
+        if (age < 18) throw new ArgumentException("Must be 18 or older to register.");
+    }
+
+    private void IsValidAddress(Address address)
+    {
+        if (string.IsNullOrEmpty(address.Street)) throw new ArgumentException("Empty street.");
+        if (string.IsNullOrEmpty(address.City)) throw new ArgumentException("Empty city.");
+        if (string.IsNullOrEmpty(address.State)) throw new ArgumentException("Empty state.");
+        if (string.IsNullOrEmpty(address.Country)) throw new ArgumentException("Empty country.");
+        if (string.IsNullOrEmpty(address.PostalCode)) throw new ArgumentException("Empty postal code.");
     }
 }

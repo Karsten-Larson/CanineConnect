@@ -37,15 +37,6 @@
     <input type="text" id="postal-code" class="form-control" @bind="PostalCode" @bind:event="oninput" required />
 </div>
 
-
-<!--Sign in error message-->
-@if (errorMsg != null)
-{
-    <div class="alert alert-warning" role="alert">
-        @errorMsg
-    </div>
-}
-
 @code {
     [Parameter, EditorRequired]
     public required Address EditableAddress { get; set; }
@@ -77,10 +68,4 @@
         get { return EditableAddress.Country; }
         set { EditableAddress.Country = value; }
     }
-
-    // string street = "";
-    // string city = "";
-    // string state = "";
-    // string postalCode = "";
-    // string country = "";
 }

@@ -115,10 +115,11 @@ namespace CanineConnect.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Sex = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Weight = table.Column<decimal>(type: "decimal(6,1)", nullable: false),
+                    Breed = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Age = table.Column<DateOnly>(type: "date", nullable: true),
                     Avaliable = table.Column<bool>(type: "bit", nullable: false),
                     Descripton = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MedicalDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ThumbnailImage = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     ShelterId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

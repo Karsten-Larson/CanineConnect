@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CanineConnect.Migrations
 {
     [DbContext(typeof(CanineConnectContext))]
-    [Migration("20241205221313_Initial")]
+    [Migration("20241206212713_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -102,10 +102,10 @@ namespace CanineConnect.Migrations
                     b.Property<bool>("Avaliable")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Descripton")
+                    b.Property<string>("Breed")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MedicalDescription")
+                    b.Property<string>("Descripton")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -118,6 +118,9 @@ namespace CanineConnect.Migrations
 
                     b.Property<int>("ShelterId")
                         .HasColumnType("int");
+
+                    b.Property<byte[]>("ThumbnailImage")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<decimal>("Weight")
                         .HasColumnType("decimal(6, 1)");

@@ -11,18 +11,19 @@ public class SeedData
             serviceProvider.GetRequiredService<
                 DbContextOptions<CanineConnectContext>>());
 
-        if (context is null || context.User is null || context.Address is null || context.Event is null || context.Shelter is null)
+        if (context is null || context.User is null || context.Address is null || context.Event is null || context.Shelter is null || context.DogListing is null)
         {
             throw new NullReferenceException(
                 "Null BlazorWebAppMoviesContext or Student DbSet");
         }
 
-        //context.Event.ExecuteDelete();
-        //context.Shelter.ExecuteDelete();
-        //context.User.ExecuteDelete();
-        //context.Address.ExecuteDelete();
+        context.Event.ExecuteDelete();
+        context.Shelter.ExecuteDelete();
+        context.User.ExecuteDelete();
+        context.Address.ExecuteDelete();
+        context.DogListing.ExecuteDelete();
 
-        if (context.User.Any() || context.Address.Any() || context.Event.Any() || context.Shelter.Any())
+        if (context.User.Any() || context.Address.Any() || context.Event.Any() || context.Shelter.Any() || context.DogListing.Any())
         {
             return;
         }
@@ -153,11 +154,44 @@ public class SeedData
             Host = shelter3
         };
 
+        // DogListings
+        DogListing listing1 = new DogListing
+        {
+            Name = "Rocky",
+            Sex = "Male",
+            Breed = "Border Collie",
+            Weight = 60.0m,
+            Age = new DateOnly(2024, 11, 15),
+            Shelter = shelter1,
+            ThumbnailImage = File.ReadAllBytes("Data\\collie.jpg")
+        };
+        DogListing listing2 = new DogListing
+        {
+            Name = "Lexus",
+            Sex = "Female",
+            Breed = "Shih Tzu",
+            Weight = 20.0m,
+            Age = new DateOnly(2024, 8, 10),
+            Shelter = shelter2,
+            ThumbnailImage = File.ReadAllBytes("Data\\shih-tzu.jpg")
+        };
+        DogListing listing3 = new DogListing
+        {
+            Name = "Blue",
+            Sex = "Female",
+            Breed = "Australian Shepherd",
+            Weight = 40.0m,
+            Age = new DateOnly(2020, 7, 11),
+            Shelter = shelter3,
+            ThumbnailImage = File.ReadAllBytes("Data\\shepherd.jpg")
+        };
+
         // Add to the database
         context.Address.AddRange(address1, address2, address3, address4);
         context.User.AddRange(user1, user2, user3, user4);
         context.Shelter.AddRange(shelter1, shelter2, shelter3);
         context.Event.AddRange(event1, event2, event3, event4);
+        context.DogListing.AddRange(listing1, listing2, listing3);
 
         context.SaveChanges();
     }
