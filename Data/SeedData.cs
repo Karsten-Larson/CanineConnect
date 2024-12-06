@@ -17,7 +17,7 @@ public class SeedData
                 "Null BlazorWebAppMoviesContext or Student DbSet");
         }
 
-        //context.Event.ExecuteDelete()
+        //context.Event.ExecuteDelete();
         //context.Shelter.ExecuteDelete();
         //context.User.ExecuteDelete();
         //context.Address.ExecuteDelete();
