@@ -1,0 +1,70 @@
+﻿@page "/messages"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using CanineConnect.Models
+@using CanineConnect.Data
+@implements IAsyncDisposable
+@inject IDbContextFactory<CanineConnect.Data.CanineConnectContext> DbFactory
+
+<style>
+    h1{color: forestgreen;
+        font-family: verdana;
+        font-size: 300%;
+         text-align: center;
+    }
+
+    p {
+        
+        text-align: center;
+    }
+    
+</style>
+<PageTitle>Index</PageTitle>
+
+<h1>Send Message</h1>
+
+<p>
+    <a href="messages/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="context.Message">
+    <PropertyColumn Property="message => message.Subject" />
+    <PropertyColumn Property="message => message.Text" />
+    <PropertyColumn Property="message => message.Timestamp" />
+    <PropertyColumn Property="message => message.ReceiverEmail" />
+
+    <TemplateColumn Context="message">
+        <a href="@($"messages/details?id={message.Id}")">Details</a> |
+        <a href="@($"messages/delete?id={message.Id}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+@code {
+    private CanineConnectContext context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}

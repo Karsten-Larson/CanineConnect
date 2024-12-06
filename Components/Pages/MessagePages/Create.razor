@@ -1,0 +1,72 @@
+﻿@page "/messages/create"
+@using Microsoft.EntityFrameworkCore
+@using CanineConnect.Models
+@inject IDbContextFactory<CanineConnect.Data.CanineConnectContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<style>
+    h1 {
+        color: forestgreen;
+        font-family: verdana;
+        font-size: 300%;
+        text-align: center;
+    }
+
+</style>
+<PageTitle>Create</PageTitle>
+
+<h1>Send Message</h1>
+<hr />
+<div class="row">
+    <div class="col-md-">
+        <EditForm method="post" Model="Message" OnValidSubmit="AddMessage" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" role="alert"/>
+            <div class="mb-3">
+                <label for="receiveremail" class="form-label">Receiver Email:</label>
+                <InputText id="receiveremail" @bind-Value="Message.ReceiverEmail" class="form-control" aria-required="true" />
+                <ValidationMessage For="() => Message.ReceiverEmail" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="senderemail" class="form-label">Sender Email:</label>
+                <InputText id="senderemail" @bind-Value="Message.SenderEmail" class="form-control" aria-required="true" />
+                <ValidationMessage For="() => Message.SenderEmail" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="subject" class="form-label">Subject:</label> 
+                <InputText id="subject" @bind-Value="Message.Subject" class="form-control" aria-required="true"/> 
+                <ValidationMessage For="() => Message.Subject" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="text" class="form-label">Text:</label> 
+                <InputTextArea id="text" @bind-Value="Message.Text" class="form-control" aria-required="true"/> 
+                <ValidationMessage For="() => Message.Text" class="text-danger" /> 
+            </div>               
+                  
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/messages">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private Message Message { get; set; } = new();
+
+    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task AddMessage()
+    {
+        using var context = DbFactory.CreateDbContext();
+
+        Message.Sender = await context.User.Where(e => e.Email == Message.SenderEmail).FirstAsync();
+        Message.Receiver = await context.User.Where(e => e.Email == Message.ReceiverEmail).FirstAsync();
+        Message.Timestamp = DateTime.Now;
+
+        context.Message.Add(Message);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/messages");
+    }
+}
