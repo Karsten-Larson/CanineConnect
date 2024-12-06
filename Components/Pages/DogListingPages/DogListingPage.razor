@@ -11,7 +11,7 @@
         margin: 5px;
         border: 1px solid #ccc;
         float: left;
-        width: 500px;
+        width: 400px;
     }
 
         div.card:hover {
@@ -27,22 +27,17 @@
         padding: 15px;
         text-align: center;
     }
-    h3.text-center{
-        margin: 40px auto;
-        padding: 20px;
-        font-size: 2.5rem;
-        text-align: center;
-        color: forestgreen;
-    }
 </style>
 
-<h3 class="text-center">Available Dogs</h3>
+<h2 class="text-success text-center mb-2">Dog Gallery</h2>
 
-<div class="mx-auto col-md-8 d-grid gap-4">
+<div class="container mt-1">
+    <div class="row">
     @if (_dogs.Count != 0)
     {
         @foreach (var dog in _dogs)
         {
+            <div class="col-md-4">
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title">@dog.Name</h4>
@@ -63,10 +58,33 @@
                 </div>
 
             </div>
+            </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">@dog.Name</h4>
+                        </div>
+
+                        <div class="card-body">
+                            <ul>
+                                <li><strong class="text-forestgreen">Breed: </strong>@dog.Breed</li>
+                                <li><strong class="text-forestgreen">Birthdate: </strong>@dog.Age?.ToString("MMMM dd yyyy")</li>
+                                <li><strong class="text-forestgreen">Host Shelter: </strong>@dog.Shelter?.ShelterName</li>
+
+                            </ul>
+
+                            @if (dog.ThumbnailImage is not null)
+                            {
+                                <img class="card-img" src="data:image;base64,@System.Convert.ToBase64String(dog.ThumbnailImage)" />
+                            }
+                        </div>
+
+                    </div>
+                </div>
         }
     }
 </div>
-
+</div>
 @code {
     private List<DogListing> _dogs = new List<DogListing>();
 
