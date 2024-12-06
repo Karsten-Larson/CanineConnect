@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CanineConnect.Migrations
 {
     [DbContext(typeof(CanineConnectContext))]
-    [Migration("20241206212713_Initial")]
+    [Migration("20241206223653_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
