@@ -33,7 +33,11 @@
 
         using (var context = DbContextFactory.CreateDbContext())
         {
-            _events = await context.Event.OrderBy(e => e.Date).ToListAsync();
+            _events = await context.Event
+                .OrderBy(e => e.Date)
+                .Include(e => e.Host)
+                .Include(e => e.Location)
+                .ToListAsync();
         }
 
         await base.OnInitializedAsync();
