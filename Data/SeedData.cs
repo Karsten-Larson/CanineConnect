@@ -175,13 +175,23 @@ public class SeedData
             Shelter = shelter2,
             ThumbnailImage = File.ReadAllBytes("Data\\shih-tzu.jpg")
         };
+        DogListing listing3 = new DogListing
+        {
+            Name = "Blue",
+            Sex = "Female",
+            Breed = "Australian Shepherd",
+            Weight = 40.0m,
+            Age = new DateOnly(2020, 7, 11),
+            Shelter = shelter3,
+            ThumbnailImage = File.ReadAllBytes("Data\\shepherd.jpg")
+        };
 
         // Add to the database
         context.Address.AddRange(address1, address2, address3, address4);
         context.User.AddRange(user1, user2, user3, user4);
         context.Shelter.AddRange(shelter1, shelter2, shelter3);
         context.Event.AddRange(event1, event2, event3, event4);
-        context.DogListing.AddRange(listing1, listing2 );
+        context.DogListing.AddRange(listing1, listing2, listing3);
 
         context.SaveChanges();
     }
