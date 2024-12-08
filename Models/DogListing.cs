@@ -15,7 +15,7 @@ namespace CanineConnect.Models
         public string? Breed { get; set; }
         public DateOnly? Age { get; set; }
         public bool Avaliable { get; set; } = true;
-        public string? Descripton { get; set; }
+        public string? Description { get; set; }
         public byte[]? ThumbnailImage { get; set; }
         //public byte[][]? AdditionalImages { get; set; }
 
