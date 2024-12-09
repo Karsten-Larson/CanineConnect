@@ -6,7 +6,7 @@
 @inject State state
 
 <PageTitle>Profile</PageTitle>
-
+<br />
 <div class="container mx-auto md-col-8">
     @if (state.IsUser())
     {
@@ -20,7 +20,7 @@
             <li>Phone: @(state.ActiveUser?.Phone ?? "No Phone Provided")</li>
             <li>Date of Birth: @state.ActiveUser?.Age.ToString("MMMM dd, yyyy")</li>
         </ul>
-
+        <br />
         <h4>Address Information</h4>
         <ul>
             <li>Street: @state.ActiveUser?.HomeAddress?.Street</li>
@@ -36,7 +36,7 @@
         <h3>Profile Not Loaded</h3>
     }
 </div>
-
+<br />
 @code {
     string name = "";
 
