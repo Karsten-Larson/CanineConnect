@@ -184,6 +184,27 @@ public class SeedData
             Age = new DateOnly(2020, 7, 11),
             Shelter = shelter3,
             ThumbnailImage = File.ReadAllBytes("Data\\shepherd.jpg")
+        }; 
+        DogListing listing4 = new DogListing
+        {
+            Name = "Duke",
+            Sex = "Male",
+            Breed = "Great Dane",
+            Weight = 120.0m,
+            Age = new DateOnly(2019, 5, 12),
+            Shelter = shelter3,
+            ThumbnailImage = File.ReadAllBytes("Data\\great-dane.png")
+        };
+        DogListing listing5 = new DogListing
+        {
+            Name = "Princess",
+            Sex = "Female",
+            Breed = "Pitbull",
+            Weight = 82.5m,
+            Description = "The most loving dog you could ever meet",
+            Age = new DateOnly(2019, 5, 12),
+            Shelter = shelter2,
+            ThumbnailImage = File.ReadAllBytes("Data\\pitbull.jpg")
         };
 
         // Add to the database
@@ -191,7 +212,7 @@ public class SeedData
         context.User.AddRange(user1, user2, user3, user4);
         context.Shelter.AddRange(shelter1, shelter2, shelter3);
         context.Event.AddRange(event1, event2, event3, event4);
-        context.DogListing.AddRange(listing1, listing2, listing3);
+        context.DogListing.AddRange(listing1, listing2, listing3, listing4, listing5);
 
         context.SaveChanges();
     }

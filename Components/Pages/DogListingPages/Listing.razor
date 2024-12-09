@@ -1,0 +1,54 @@
+﻿@page "/doglistings/{DogID:int}"
+
+@using CanineConnect.Data
+@using Models
+@using Microsoft.EntityFrameworkCore
+
+@inject IDbContextFactory<CanineConnectContext> DbContextFactory
+
+
+<h3>DogListing</h3>
+
+@if (dog is not null)
+{
+    <div class="container">
+        <h4>@dog.Name</h4>
+
+        <ul>
+            <li><strong class="text-forestgreen">Breed: </strong>@dog.Breed</li>
+            <li><strong class="text-forestgreen">Birthdate: </strong>@dog.Age?.ToString("MMMM dd yyyy")</li>
+            <li><strong class="text-forestgreen">Host Shelter: </strong>@dog.Shelter?.ShelterName</li>
+
+        </ul>
+
+        @if (dog.ThumbnailImage is not null)
+        {
+            <img class="card-img" src="data:image;base64,@System.Convert.ToBase64String(dog.ThumbnailImage)" />
+        }
+    </div>
+}
+else
+{
+    <h3>No Dog Found</h3>
+}
+
+@code {
+    [SupplyParameterFromQuery]
+    [Parameter]
+    public int? DogID { get; set; }
+
+    private DogListing? dog;
+
+    protected override async Task OnInitializedAsync()
+    {
+        using (var context = await DbContextFactory.CreateDbContextAsync())
+        {
+            dog = await context.DogListing
+                .Include(e => e.Shelter)
+                .Where(e => e.Id == DogID)
+                .FirstOrDefaultAsync();
+        }
+
+        await base.OnInitializedAsync();
+    }
+}
