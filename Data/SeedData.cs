@@ -14,7 +14,7 @@ public class SeedData
         if (context is null || context.User is null || context.Address is null || context.Event is null || context.Shelter is null || context.DogListing is null)
         {
             throw new NullReferenceException(
-                "Null BlazorWebAppMoviesContext or Student DbSet");
+                "Null CanineConnect Database");
         }
 
         context.Event.ExecuteDelete();
@@ -74,9 +74,9 @@ public class SeedData
         };
         User user2 = new User
         {
-            FirstName = "Anne",
-            LastName = "Denton",
-            Email = "anne.denton@ndsu.edu",
+            FirstName = "Ken",
+            LastName = "Magel",
+            Email = "ken.magel@ndsu.edu",
             Password = "1234",
             Age = new DateOnly(2004, 10, 27),
             HomeAddress = address1,

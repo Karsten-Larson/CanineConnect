@@ -1,0 +1,36 @@
+﻿@rendermode InteractiveServer
+
+@using CanineConnect.Data
+@using CanineConnect.Models
+@using Microsoft.EntityFrameworkCore
+
+<h4 class="text-center">Personal Information</h4>
+
+<!-- First Name input -->
+<div data-mdb-input-init class="form-outline mb-4">
+    <label class="form-label" for="firstname">First Name</label>
+    <input type="text" id="firstname" class="form-control" @bind="user.FirstName" @bind:event="oninput" />
+</div>
+
+<!-- Last Name input -->
+<div data-mdb-input-init class="form-outline mb-4">
+    <label class="form-label" for="lastname">Last Name</label>
+    <input type="text" id="lastname" class="form-control" @bind="user.LastName" @bind:event="oninput" />
+</div>
+
+<!-- Phone input -->
+<div data-mdb-input-init class="form-outline mb-4">
+    <label class="form-label" for="phonenumber">Phone Number</label>
+    <input type="text" id="phonenumber" class="form-control" @bind="user.Phone" @bind:event="oninput" />
+</div>
+
+<!-- Birthday input -->
+<div data-mdb-input-init class="form-outline mb-4">
+    <label class="form-label" for="birthdate">Birthdate</label>
+    <input type="date" id="birthdate" class="form-control" @bind="user.Age" @bind:event="oninput" />
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public required User user { get; set; }
+}
