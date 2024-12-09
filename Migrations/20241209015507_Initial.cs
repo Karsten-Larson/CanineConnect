@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CanineConnect.Migrations
 {
     /// <inheritdoc />
-    public partial class Initialize : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -118,7 +118,7 @@ namespace CanineConnect.Migrations
                     Breed = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Age = table.Column<DateOnly>(type: "date", nullable: true),
                     Avaliable = table.Column<bool>(type: "bit", nullable: false),
-                    Descripton = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ThumbnailImage = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     ShelterId = table.Column<int>(type: "int", nullable: false)
                 },

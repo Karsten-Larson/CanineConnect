@@ -6,9 +6,7 @@
 
 @inject IDbContextFactory<CanineConnectContext> DbContextFactory
 
-<h2 class="text-success text-center my-2">Dog Gallery</h2>
-
-<<<<<<< HEAD
+<style>
         div.card:hover {
             border: 1px solid #777;
         }
@@ -23,15 +21,13 @@
         text-align: center;
     }
 </style>
+
 <br />
 <h2 class="text-success text-center mb-2">Dog Gallery</h2>
 
-<div class="container mt-1">
-    <div class="row">
-=======
 <div class="container-fluid mt-1">
     <div class="row row-cols-1 row-cols-md-3">
->>>>>>> aa3e8bfe313ff6ffa50db3e314bfba7f05f39527
+
         @if (_dogs.Count != 0)
         {
             @foreach (var dog in _dogs)
@@ -64,11 +60,9 @@
         }
     </div>
 </div>
-<<<<<<< HEAD
-<br />
-=======
 
->>>>>>> aa3e8bfe313ff6ffa50db3e314bfba7f05f39527
+<br />
+
 @code {
     private List<DogListing> _dogs = new List<DogListing>();
 
