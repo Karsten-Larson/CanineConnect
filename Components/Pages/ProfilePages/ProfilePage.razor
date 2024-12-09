@@ -30,7 +30,7 @@
             <li>Phone: @(user.Phone ?? "No Phone Provided")</li>
             <li>Date of Birth: @user.Age.ToString("MMMM dd, yyyy")</li>
         </ul>
-
+        <br />
         <h4>Address Information</h4>
         <ul>
             <li>Street: @user.HomeAddress?.Street</li>
@@ -46,7 +46,7 @@
         <h3>Profile Not Loaded</h3>
     }
 </div>
-
+<br />
 @code {
     [SupplyParameterFromQuery]
     [Parameter]
