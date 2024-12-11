@@ -1,0 +1,37 @@
+﻿@page "/messagesend"
+@using CanineConnect.Models
+@using MailKit.Net.Smtp
+@using MimeKit
+
+<h1>Send Message</h1>
+
+
+<EditForm Model ="Message" FormName="MessageForm" OnSubnit ="SendMessage">
+    <InputText @bind-Value = "Message.ReceiverEmail" class ="form-control nt-2" placeholder ="ReceiverEmail"/>
+    <InputText @bind-Value="Message.SenderEmail" class="form-control nt-2" placeholder="SenderEmail" />
+    <InputText @bind-Value="Message.Subject" class="form-control nt-2" placeholder="Subject" />
+    <InputTextArea @bind-Value="Message.Text" class="form-control nt-2" placeholder="Text" />
+    <button type="submit" class="btn btn-primary ">Send</button>
+</EditForm>
+
+@code 
+{
+    [SupplyParameterFromForm(FormName = "MessageForm")]
+    Message Message { get; set; } = new();
+    void sendEmail()
+    {
+        var email = new MimeMessage();
+        email.From.Add(MailboxAddress.Parse(""));
+        email.To.Add(MailboxAddress.Parse(Message.SenderEmail));
+        email.Subject = Message.Subject;
+        email.Body = new TextPart(MimeKit.Text.TextFormat.Html);
+        {
+            //Text = Message.Text;
+        };
+        using var stmp = new SmtpClient();
+        stmp.Connect("", 587, MailKit.Security.SecureSocketOptions.StartTls);
+        stmp.Authenticate("", "");
+        stmp.Send(email);
+        stmp.Disconnect(true);
+    }
+}

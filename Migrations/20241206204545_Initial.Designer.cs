@@ -4,6 +4,7 @@ using CanineConnect.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CanineConnect.Migrations
 {
     [DbContext(typeof(CanineConnectContext))]
-    partial class CanineConnectContextModelSnapshot : ModelSnapshot
+    [Migration("20241206204545_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,10 +102,10 @@ namespace CanineConnect.Migrations
                     b.Property<bool>("Avaliable")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Breed")
+                    b.Property<string>("Descripton")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("MedicalDescription")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -115,9 +118,6 @@ namespace CanineConnect.Migrations
 
                     b.Property<int>("ShelterId")
                         .HasColumnType("int");
-
-                    b.Property<byte[]>("ThumbnailImage")
-                        .HasColumnType("varbinary(max)");
 
                     b.Property<decimal>("Weight")
                         .HasColumnType("decimal(6, 1)");
