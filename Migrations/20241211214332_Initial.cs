@@ -59,10 +59,13 @@ namespace CanineConnect.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Subject = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     SenderId = table.Column<int>(type: "int", nullable: false),
-                    ReceiverId = table.Column<int>(type: "int", nullable: false)
+                    ReceiverId = table.Column<int>(type: "int", nullable: false),
+                    ReceiverEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SenderEmail = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -114,9 +117,9 @@ namespace CanineConnect.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Sex = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Weight = table.Column<decimal>(type: "decimal(6,1)", nullable: false),
+                    Weight = table.Column<decimal>(type: "decimal(6,1)", nullable: true),
                     Breed = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Age = table.Column<DateOnly>(type: "date", nullable: true),
+                    Age = table.Column<DateOnly>(type: "date", nullable: false),
                     Avaliable = table.Column<bool>(type: "bit", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ThumbnailImage = table.Column<byte[]>(type: "varbinary(max)", nullable: true),

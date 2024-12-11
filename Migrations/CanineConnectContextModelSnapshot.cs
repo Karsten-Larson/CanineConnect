@@ -93,7 +93,7 @@ namespace CanineConnect.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateOnly?>("Age")
+                    b.Property<DateOnly>("Age")
                         .HasColumnType("date");
 
                     b.Property<bool>("Avaliable")
@@ -119,7 +119,7 @@ namespace CanineConnect.Migrations
                     b.Property<byte[]>("ThumbnailImage")
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<decimal>("Weight")
+                    b.Property<decimal?>("Weight")
                         .HasColumnType("decimal(6, 1)");
 
                     b.HasKey("Id");
@@ -176,11 +176,23 @@ namespace CanineConnect.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ReceiverEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("ReceiverId")
                         .HasColumnType("int");
 
+                    b.Property<string>("SenderEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("SenderId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Text")
                         .IsRequired()

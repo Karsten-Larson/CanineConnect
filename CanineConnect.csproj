@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <Folder Include="Components\Pages\ShelterPages\" />
   </ItemGroup>
 
 </Project>

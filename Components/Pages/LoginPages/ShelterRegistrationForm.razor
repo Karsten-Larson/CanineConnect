@@ -13,9 +13,14 @@
     <form>
         <div class="card">
             <form class="card-body">
-                <AddressForm EditableAddress="user.HomeAddress" />
-                <UserForm user="user" />
-                <CredentialForm user="user" />
+                <ShelterForm shelter="shelter" />
+                <AddressForm EditableAddress="shelter.User.HomeAddress" />
+
+                @if (!state.IsUser())
+                {
+                    <UserForm user="shelter.User" />
+                    <CredentialForm user="shelter.User" />
+                }
 
                 <!-- Submit button -->
                 <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4 mx-auto" @onclick="HandleRegister">Register</button>
@@ -33,7 +38,7 @@
         <!-- Register buttons -->
         <div class="text-center mt-4">
             <p>Already a member? <a href="/login">Login</a></p>
-            <p>Registering a shelter? <a href="/signup/shelter">Shelter Register</a></p>
+            <p>Registering a user? <a href="/signup/user">Register</a></p>
         </div>
     </form>
 </div>
@@ -43,13 +48,22 @@
     public string? redirect { get; set; }
 
     [Parameter, EditorRequired]
-    public User? user { get; set; }
+    public Shelter? shelter { get; set; }
 
     protected override Task OnInitializedAsync()
     {
-        if (user?.HomeAddress is null)
+        if (state.IsUser())
         {
-            user.HomeAddress = new Address();
+            shelter.User = state.ActiveUser;
+        }
+        else if (shelter.User is null)
+        {
+            shelter.User = new User();
+        }
+
+        if (shelter.User?.HomeAddress is null)
+        {
+            shelter.User.HomeAddress = new Address();
         }
 
         return base.OnInitializedAsync();
@@ -63,8 +77,14 @@
 
         try
         {
-            await authentication.RegisterUser(user);
-            state.ActiveUser = user;
+            if (!state.IsUser())
+            {
+                await authentication.RegisterUser(shelter.User);
+            }
+
+            await authentication.RegisterShelter(shelter);
+            state.ActiveUser = shelter.User;
+            state.ActiveShelter = shelter;
             errorMsg = null;
 
             if (redirect is not null)
@@ -78,7 +98,9 @@
         }
         catch (Exception ex)
         {
-            errorMsg = "System Error";
+            // errorMsg = "System Error";
+            errorMsg = ex.Message.ToString();
+
         }
     }
 }

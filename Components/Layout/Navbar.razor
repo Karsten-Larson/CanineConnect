@@ -43,7 +43,7 @@
         <ul class="nav navbar-nav me-auto">
             <!-- Tab 5 (CHANGE REF TO CORRECT WEBPAGE)-->
             <li class="nav-item">
-                <a class="nav-link" href="/signup"> Sign Up</a>
+                <a class="nav-link" href="/signup/user"> Sign Up</a>
             </li>
             <!-- Tab 6 (CHANGE REF TO CORRECT WEBPAGE)-->
             <li class="nav-item">
@@ -59,9 +59,17 @@
                 </a>
 
                 <ul class="dropdown-menu" aria-labelledby="profileDropdown" style="@dropdownStyle">
-                    <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                    <li><a class="dropdown-item" href="/profile/user/@state?.ActiveUser.Id.ToString()">Profile</a></li>
                     <li><a class="dropdown-item" href="#">Applications</a></li>
-                    <li><a class="dropdown-item" href="#">Messages</a></li>
+                    <li><a class="dropdown-item" href="/messages">Messages</a></li>
+                  
+                    @if (state.IsShelter())
+                    {
+                        <li><a class="dropdown-item" href="/profile/shelter/@state?.ActiveShelter.Id.ToString()">Shelter</a></li>
+                    } else
+                    {
+                        <li><a class="dropdown-item" href="/shelter">Shelter</a></li>
+                    }
                     <li><button class="dropdown-item" @onclick="SignOut">Sign Out</button></li>
                 </ul>
             </li>
@@ -90,6 +98,7 @@
     private void SignOut()
     {
         state.ActiveUser = null;
+        state.ActiveShelter = null;
         navigationManager.NavigateTo("/");
     }
 }
