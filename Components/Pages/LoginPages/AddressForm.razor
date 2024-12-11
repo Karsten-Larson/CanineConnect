@@ -6,6 +6,7 @@
 @using Microsoft.EntityFrameworkCore
 
 
+<h4 class="text-center">Address Information</h4>
 
 <!-- State input -->
 <div data-mdb-input-init class="form-outline mb-4">
@@ -36,15 +37,6 @@
     <label class="form-label" for="postal-code">Postal Code</label>
     <input type="text" id="postal-code" class="form-control" @bind="PostalCode" @bind:event="oninput" required />
 </div>
-
-
-<!--Sign in error message-->
-@if (errorMsg != null)
-{
-    <div class="alert alert-warning" role="alert">
-        @errorMsg
-    </div>
-}
 
 @code {
     [Parameter, EditorRequired]
@@ -77,10 +69,4 @@
         get { return EditableAddress.Country; }
         set { EditableAddress.Country = value; }
     }
-
-    // string street = "";
-    // string city = "";
-    // string state = "";
-    // string postalCode = "";
-    // string country = "";
 }

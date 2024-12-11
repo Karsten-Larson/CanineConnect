@@ -6,17 +6,17 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <!-- Logo/Name (ADD LOGO)-->
-        <a class="navbar-brand" href="#">Canine Connect</a>
+        <!-- Logo/Name -->
+        <a href="#"> <img src="Images/Canine Connect Logo.png" alt="Avatar Logo" style="width:400px; border-radius: 20px;" class="navbar-brand mx-auto mb-2 mb-lg-0"> </a>
 
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
             <!-- Tab 1 -->
-            <li class="nav-item">
+            <li class="nav-item" >
                 <a class="nav-link active" aria-current="page" href="#">Home</a>
             </li>
             <!-- Tab 2 (CHANGE REF TO CORRECT WEBPAGE)-->
             <li class="nav-item">
-                <a class="nav-link" href="#">Dog Gallery</a>
+                <a class="nav-link" href="/doglistings">Dog Gallery</a>
             </li>
             <!-- Tab 3 -->
             <li class="nav-item">
@@ -43,7 +43,7 @@
         <ul class="nav navbar-nav me-auto">
             <!-- Tab 5 (CHANGE REF TO CORRECT WEBPAGE)-->
             <li class="nav-item">
-                <a class="nav-link" href="/signup"> Sign Up</a>
+                <a class="nav-link" href="/signup/user"> Sign Up</a>
             </li>
             <!-- Tab 6 (CHANGE REF TO CORRECT WEBPAGE)-->
             <li class="nav-item">
@@ -59,9 +59,17 @@
                 </a>
 
                 <ul class="dropdown-menu" aria-labelledby="profileDropdown" style="@dropdownStyle">
-                    <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                    <li><a class="dropdown-item" href="/profile/user/@state?.ActiveUser.Id.ToString()">Profile</a></li>
                     <li><a class="dropdown-item" href="#">Applications</a></li>
                     <li><a class="dropdown-item" href="/messages">Messages</a></li>
+                  
+                    @if (state.IsShelter())
+                    {
+                        <li><a class="dropdown-item" href="/profile/shelter/@state?.ActiveShelter.Id.ToString()">Shelter</a></li>
+                    } else
+                    {
+                        <li><a class="dropdown-item" href="/shelter">Shelter</a></li>
+                    }
                     <li><button class="dropdown-item" @onclick="SignOut">Sign Out</button></li>
                 </ul>
             </li>

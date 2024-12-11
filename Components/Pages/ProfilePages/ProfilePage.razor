@@ -1,34 +1,44 @@
-﻿@page "/profile"
+﻿@page "/profile/user/{UserID:int}"
 
+@using CanineConnect.Data
 @using Models
 @using StateObjects
+@using Microsoft.EntityFrameworkCore
 
+@inject IDbContextFactory<CanineConnectContext> DbContextFactory
 @inject State state
 
 <PageTitle>Profile</PageTitle>
 
+<h3 class="text-center text-forestgreen">User Profile</h3>
+
 <div class="container mx-auto md-col-8">
-    @if (state.IsUser())
+    @if (user is not null)
     {
         <h3>@name</h3>
 
         <hr />
 
+        @if (activeUser)
+        {
+            <a href="/profile/user/edit">Edit</a>
+        }
+
         <h4>Personal Information</h4>
         <ul>
-            <li>Email: @state.ActiveUser?.Email</li>
-            <li>Phone: @(state.ActiveUser?.Phone ?? "No Phone Provided")</li>
-            <li>Date of Birth: @state.ActiveUser?.Age.ToString("MMMM dd, yyyy")</li>
+            <li>Email: @user.Email</li>
+            <li>Phone: @(user.Phone ?? "No Phone Provided")</li>
+            <li>Date of Birth: @user.Age.ToString("MMMM dd, yyyy")</li>
         </ul>
-
+        <br />
         <h4>Address Information</h4>
         <ul>
-            <li>Street: @state.ActiveUser?.HomeAddress?.Street</li>
-            <li>City: @state.ActiveUser?.HomeAddress?.City</li>
-            <li>State: @state.ActiveUser?.HomeAddress?.State</li>
-            <li>Country: @state.ActiveUser?.HomeAddress?.Country</li>
-            <li>Postal Code: @state.ActiveUser?.HomeAddress?.PostalCode</li>
-            <li>Country: @state.ActiveUser?.HomeAddress?.Country</li>
+            <li>Street: @user.HomeAddress?.Street</li>
+            <li>City: @user.HomeAddress?.City</li>
+            <li>State: @user.HomeAddress?.State</li>
+            <li>Country: @user.HomeAddress?.Country</li>
+            <li>Postal Code: @user.HomeAddress?.PostalCode</li>
+            <li>Country: @user.HomeAddress?.Country</li>
         </ul>
     }
     else
@@ -36,18 +46,33 @@
         <h3>Profile Not Loaded</h3>
     }
 </div>
-
+<br />
 @code {
-    string name = "";
+    [SupplyParameterFromQuery]
+    [Parameter]
+    public int? UserID { get; set; }
 
-    protected override void OnInitialized()
+    private User? user;
+    private string name = "";
+    private bool activeUser = false;
+
+    protected override async Task OnInitializedAsync()
     {
-        if (state.IsUser())
+        using (var context = await DbContextFactory.CreateDbContextAsync())
         {
-            name = state.ActiveUser?.FirstName + " " + state.ActiveUser?.LastName;
+            user = await context.User
+                .Where(e => e.Id == UserID)
+                .Include(e => e.HomeAddress)
+                .FirstOrDefaultAsync();
+
+            if (user is not null)
+            {
+                name = user.FirstName + " " + user.LastName;
+                activeUser = (state.IsUser()) ? user.Id == state?.ActiveUser?.Id : false;
+            }
         }
 
-        base.OnInitialized();
+        await base.OnInitializedAsync();
     }
 
 }

@@ -16,10 +16,11 @@ namespace CanineConnect.StateObjects
                 Notify?.Invoke();
             }
         }
-        public Shelter? ActiveShelter { get { return _activeShelter; } set { _activeShelter = value; Notify?.Invoke(); } }
-
-
-
+        public Shelter? ActiveShelter
+        {
+            get { return _activeShelter; }
+            set { _activeShelter = value; Notify?.Invoke(); }
+        }
 
         public bool IsUser()
         {

@@ -11,12 +11,12 @@ namespace CanineConnect.Models
         [Required]
         public string? Sex { get; set; }
         [Column(TypeName="decimal(6, 1)")]
-        public decimal Weight { get; set; }
-        public DateOnly? Age { get; set; }
+        public decimal? Weight { get; set; }
+        public string? Breed { get; set; }
+        public DateOnly Age { get; set; }
         public bool Avaliable { get; set; } = true;
-        public string? Descripton { get; set; }
-        public string? MedicalDescription { get; set; }
-        //public byte[]? ThumbnailImage { get; set; }
+        public string? Description { get; set; }
+        public byte[]? ThumbnailImage { get; set; }
         //public byte[][]? AdditionalImages { get; set; }
 
         [Required]
