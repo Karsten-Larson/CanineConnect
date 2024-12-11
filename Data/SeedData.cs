@@ -121,34 +121,38 @@ public class SeedData
         };
 
         // Events
-        Event event1 = new Event
+        EventPost event1 = new EventPost
         {
             Name = "Animal Rescue Day",
-            Date = new DateTime(new DateOnly(2025, 1, 1), new TimeOnly(14, 0)),
+            Date = new DateOnly(2025, 1, 1), 
+            Time = new TimeOnly(14, 0),
             Description = "Start the new year off right by volunteering at the dog shelter.",
             Location = address4,
             Host = shelter1
         };
-        Event event2 = new Event
+        EventPost event2 = new EventPost
         {
             Name = "Christmas at the Pound",
-            Date = new DateTime(new DateOnly(2024, 12, 25), new TimeOnly(10, 0)),
+            Date = new DateOnly(2024, 12, 25),
+            Time = new TimeOnly(10, 0),
             Description = "Experience Christmas at the Pound with the dogs. Santa will join us to bring treats for the pups and humans too!",
             Location = shelter2.User.HomeAddress,
             Host = shelter2
         };
-        Event event3 = new Event
+        EventPost event3 = new EventPost
         {
             Name = "Valentines Day At the Pound",
-            Date = new DateTime(new DateOnly(2025, 2, 14), new TimeOnly(16, 0)),
+            Date = new DateOnly(2025, 2, 14), 
+            Time = new TimeOnly(16, 0),
             Description = "Spend Valentines day around dogs in need of a home. Bring a significant otehr to help and enjoy time together in service of these dogs and the community.",
             Location = shelter2.User.HomeAddress,
             Host = shelter2
         };
-        Event event4 = new Event
+        EventPost event4 = new EventPost
         {
             Name = "Red, White, and Roof",
-            Date = new DateTime(new DateOnly(2025, 6, 4), new TimeOnly(12, 0)),
+            Date = new DateOnly(2025, 6, 4), 
+            Time = new TimeOnly(12, 0),
             Description = "July 4th at Lincoln Park deserves to be celebrated with friends, fellow Americans, and dogs in need of a home. This event is an adoption event that requires volunteers to run smoothly. Please come and help out on our Nation's birthday!",
             Location = address4,
             Host = shelter3
