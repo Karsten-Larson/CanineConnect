@@ -13,13 +13,16 @@
 <h3 class="text-center text-forestgreen">User Profile</h3>
 
 <div class="container mx-auto md-col-8">
-    @if (user is not null)
+    @if (user is not null && (!adminPage || state.IsAdmin()))
     {
-        <h3>@name</h3>
+        @if (name is not null)
+        {
+            <h3>@name</h3>
+        }
 
         <hr />
 
-        @if (activeUser)
+        @if ((activeUser || state.IsAdmin()) && !adminPage)
         {
             <a href="/profile/user/edit">Edit</a>
         }
@@ -27,19 +30,31 @@
         <h4>Personal Information</h4>
         <ul>
             <li>Email: @user.Email</li>
-            <li>Phone: @(user.Phone ?? "No Phone Provided")</li>
-            <li>Date of Birth: @user.Age.ToString("MMMM dd, yyyy")</li>
+
+            @if (user.Phone is not null)
+            {
+                <li>Phone: @user.Phone</li>
+            }
+
+            @if (!adminPage)
+            {
+                <li>Date of Birth: @user.Age.ToString("MMMM dd, yyyy")</li>
+            }
         </ul>
-        <br />
-        <h4>Address Information</h4>
-        <ul>
-            <li>Street: @user.HomeAddress?.Street</li>
-            <li>City: @user.HomeAddress?.City</li>
-            <li>State: @user.HomeAddress?.State</li>
-            <li>Country: @user.HomeAddress?.Country</li>
-            <li>Postal Code: @user.HomeAddress?.PostalCode</li>
-            <li>Country: @user.HomeAddress?.Country</li>
-        </ul>
+
+        @if (user.HomeAddress is not null && !adminPage)
+        {
+            <br />
+            <h4>Address Information</h4>
+            <ul>
+                <li>Street: @user.HomeAddress?.Street</li>
+                <li>City: @user.HomeAddress?.City</li>
+                <li>State: @user.HomeAddress?.State</li>
+                <li>Country: @user.HomeAddress?.Country</li>
+                <li>Postal Code: @user.HomeAddress?.PostalCode</li>
+                <li>Country: @user.HomeAddress?.Country</li>
+            </ul>
+        }
     }
     else
     {
@@ -53,8 +68,9 @@
     public int? UserID { get; set; }
 
     private User? user;
-    private string name = "";
+    private string? name = null;
     private bool activeUser = false;
+    private bool adminPage = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -67,8 +83,16 @@
 
             if (user is not null)
             {
-                name = user.FirstName + " " + user.LastName;
-                activeUser = (state.IsUser()) ? user.Id == state?.ActiveUser?.Id : false;
+                if (user.Email == "admin")
+                {
+                    activeUser = true;
+                    adminPage = true;
+                }
+                else
+                {
+                    name = user.FirstName + " " + user.LastName;
+                    activeUser = (state.IsUser()) ? user.Id == state?.ActiveUser?.Id : false;
+                }
             }
         }
 

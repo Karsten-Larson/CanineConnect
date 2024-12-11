@@ -63,6 +63,15 @@ public class SeedData
         };
 
         // Users
+        User admin = new User
+        {
+            FirstName = "Admin",
+            LastName = "Admin",
+            Email = "admin",
+            Password = "1234",
+            Age = DateOnly.FromDateTime(DateTime.Now),
+            HomeAddress = address1,
+        };
         User user1 = new User
         {
             FirstName = "Anne",
@@ -209,7 +218,7 @@ public class SeedData
 
         // Add to the database
         context.Address.AddRange(address1, address2, address3, address4);
-        context.User.AddRange(user1, user2, user3, user4);
+        context.User.AddRange(admin, user1, user2, user3, user4);
         context.Shelter.AddRange(shelter1, shelter2, shelter3);
         context.Event.AddRange(event1, event2, event3, event4);
         context.DogListing.AddRange(listing1, listing2, listing3, listing4, listing5);
