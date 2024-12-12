@@ -65,13 +65,19 @@ else
 
     [SupplyParameterFromForm]
     private EventPost? EventPost { get; set; }
-
+    List<EventPost> _events = new List<EventPost>();
     protected override async Task OnInitializedAsync()
     {
-        using var context = DbFactory.CreateDbContext();
-        EventPost ??= await context.Event.FirstOrDefaultAsync(m => m.Id == Id);
+        using (var context = DbFactory.CreateDbContext())
+        {
 
-        EventPost.Location = new Address();
+            _events = await context.Event
+                .Include(e => e.Location)
+                .ToListAsync();
+            EventPost ??= await context.Event.FirstOrDefaultAsync(m => m.Id == Id);
+        };
+        
+
         EventPost.HostId = state.ActiveUser.Id;
         
 
@@ -79,7 +85,7 @@ else
         {
             NavigationManager.NavigateTo("notfound");
         }
-        //return base.OnInitializedAsync();
+        
     }
 
     // To protect from overposting attacks, enable the specific properties you want to bind to.

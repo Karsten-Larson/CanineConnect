@@ -8,6 +8,8 @@
 @using Microsoft.EntityFrameworkCore
 @implements IAsyncDisposable
 @inject IDbContextFactory<CanineConnect.Data.CanineConnectContext> DbFactory
+@inject State state
+@using CanineConnect.StateObjects
 
 <PageTitle>Your Posted Events</PageTitle>
 <div style="padding: 20px">
@@ -17,13 +19,13 @@
         <a href="myeventposts/create">Create New</a>
     </p>
 
-    <QuickGrid Class="table" Items="context.Event.Include(e => e.Location).Include(e => e.Host)">
+    <QuickGrid Class="table" Items="context.Event.Where(e => e.Host.User.Id == state.ActiveUser.Id)">
         <PropertyColumn Property="eventpost => eventpost.Name" />
         <PropertyColumn Property="eventpost => eventpost.Date" />
         <PropertyColumn Property="eventpost => eventpost.Time" />
         <PropertyColumn Property="eventpost => eventpost.Description" />
-        <PropertyColumn Property="eventpost => LocationToString(eventpost.Location)" Title="Location"/>
-        <PropertyColumn Property="eventpost => hostToString(eventpost.Host)" Title="Host" />
+        <PropertyColumn Property="eventpost => LocationToString(eventpost.LocationId)" Title="Location"/>
+        <PropertyColumn Property="eventpost => hostToString(eventpost.HostId)" Title="Host" />
 
         <TemplateColumn Context="eventpost">
             <a href="@($"myeventposts/edit?id={eventpost.Id}")">Edit</a> |
@@ -42,18 +44,31 @@
 
     public async ValueTask DisposeAsync() => await context.DisposeAsync();
 
-    protected string LocationToString(Address address)
+    protected string LocationToString(int id)
     {
+        var result = from x in context.Address
+                     where x.Id == id
+                     select x;
+
+        var address = result.First();
+
         string location = $"{address.Street}, {address.City}, {address.State}, {address.PostalCode} {address.Country}";
 
         return location;
     }
 
-    protected string hostToString(Shelter shelter)
+    protected string hostToString(int id)
     {
+
+        var result = from x in context.Shelter
+                     where x.Id == id
+                     select x;
+
+        var shelter = result.First();
 
         string host = shelter.ShelterName;
 
         return host;
     }
+
 }

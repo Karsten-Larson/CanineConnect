@@ -8,13 +8,13 @@
 @using Microsoft.EntityFrameworkCore
 
 @inject IDbContextFactory<CanineConnectContext> DbContextFactory
-@if (state.IsUser() && state.IsShelter())
+@if (state.IsUser() && @state.IsShelter())
 {
     <div style="padding-top: 20px;padding-right: 20px; float: right">
         <a class="btn btn-forestgreen p-2" style="font-size: 1.5rem;" href="/myeventposts">My Events</a>
     </div>
 }
-<a>@state.IsUser(), @state.IsShelter()</a>
+
 <PageTitle>Events</PageTitle>
 <br />
 <div class="container">
