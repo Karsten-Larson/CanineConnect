@@ -56,7 +56,7 @@ else
 }
 
 <div>
-    <a href="/eventposts">Back to List</a>
+    <a href="/myeventposts">Back to List</a>
 </div>
 </div>
 @code {
@@ -78,7 +78,7 @@ else
         };
         
 
-        EventPost.HostId = state.ActiveUser.Id;
+        EventPost.HostId = state.ActiveShelter.Id;
         
 
         if (EventPost is null)

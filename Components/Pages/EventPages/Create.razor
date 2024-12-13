@@ -54,10 +54,11 @@
     [SupplyParameterFromForm]
     private EventPost EventPost { get; set; } = new();
 
-    protected override Task OnInitializedAsync()
+    protected override Task OnInitializedAsync() 
     {
         EventPost.Location = new Address();
-        EventPost.HostId = state.ActiveUser.Id;
+
+        EventPost.HostId = state.ActiveShelter.Id;
         return base.OnInitializedAsync();
     }
 
