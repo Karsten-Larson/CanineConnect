@@ -1,0 +1,84 @@
+﻿@rendermode InteractiveServer
+@page "/doglistings/create"
+@using Microsoft.EntityFrameworkCore
+@using CanineConnect.Models
+@using CanineConnect.Components.Pages.LoginPages
+@inject IDbContextFactory<CanineConnect.Data.CanineConnectContext> DbFactory
+@inject NavigationManager NavigationManager
+@inject State state
+@using CanineConnect.StateObjects
+
+<br />
+<h2 class="text-success text-center mb-2">Add New Dog Listing</h2>
+
+<EditForm Model="NewDogListing" OnValidSubmit="AddDogListing">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="mb-3">
+        <label for="name">Name:</label>
+        <InputText id="name" @bind-Value="NewDogListing.Name" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label for="sex">Sex:</label>
+        <InputText id="sex" @bind-Value="NewDogListing.Sex" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label for="weight">Weight:</label>
+        <InputNumber id="weight" @bind-Value="NewDogListing.Weight" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label for="breed">Breed:</label>
+        <InputText id="breed" @bind-Value="NewDogListing.Breed" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label for="age">Age:</label>
+        <InputDate id="age" @bind-Value="NewDogListing.Age" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label for="avaliable">Available:</label>
+        <InputCheckbox id="avaliable" @bind-Value="NewDogListing.Avaliable" />
+    </div>
+    <div class="mb-3">
+        <label for="description">Description:</label>
+        <InputTextArea id="description" @bind-Value="NewDogListing.Description" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label for="shelterId">Shelter ID:</label>
+        <InputNumber id="shelterId" @bind-Value="NewDogListing.ShelterId" class="form-control" />
+    </div>
+    <div>
+        <label for="thumbnail">Thumbnail Image:</label>
+        <InputFile OnChange="HandleFileChange" />
+    </div>
+
+    <button type="submit" class="btn btn-forestgreen p-2">Submit</button>
+</EditForm>
+
+@code {
+    private DogListing NewDogListing = new DogListing();
+
+    protected override Task OnInitializedAsync()
+    {
+        NewDogListing.ShelterId = state.ActiveShelter.Id;
+        return base.OnInitializedAsync();
+    }
+
+    private async Task AddDogListing()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.DogListing.Add(NewDogListing);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/doglistings");
+    }
+
+    private async Task HandleFileChange(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (file != null)
+        {
+            using var stream = new MemoryStream();
+            await file.OpenReadStream().CopyToAsync(stream);
+            NewDogListing.ThumbnailImage = stream.ToArray();
+        }
+    }
+}
