@@ -129,7 +129,7 @@ namespace CanineConnect.Migrations
                     b.ToTable("DogListing");
                 });
 
-            modelBuilder.Entity("CanineConnect.Models.Event", b =>
+            modelBuilder.Entity("CanineConnect.Models.EventPost", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -137,9 +137,9 @@ namespace CanineConnect.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("Date")
+                    b.Property<DateOnly?>("Date")
                         .IsRequired()
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -154,6 +154,10 @@ namespace CanineConnect.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<TimeOnly?>("Time")
+                        .IsRequired()
+                        .HasColumnType("time");
 
                     b.HasKey("Id");
 
@@ -172,11 +176,23 @@ namespace CanineConnect.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ReceiverEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("ReceiverId")
                         .HasColumnType("int");
 
+                    b.Property<string>("SenderEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("SenderId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Text")
                         .IsRequired()
@@ -302,7 +318,7 @@ namespace CanineConnect.Migrations
                     b.Navigation("Shelter");
                 });
 
-            modelBuilder.Entity("CanineConnect.Models.Event", b =>
+            modelBuilder.Entity("CanineConnect.Models.EventPost", b =>
                 {
                     b.HasOne("CanineConnect.Models.Shelter", "Host")
                         .WithMany()
