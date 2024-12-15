@@ -18,7 +18,7 @@
 
 @code {
     [Parameter, EditorRequired]
-    public required Event ScheduledEvent { get; set; }
+    public required EventPost ScheduledEvent { get; set; }
 
     string date = "";
     string time = "";
@@ -28,7 +28,7 @@
     protected override void OnInitialized()
     {
         date = ScheduledEvent.Date?.ToString("MMMM dd, yyyy");
-        time = ScheduledEvent.Date?.ToString("hh:mm tt");
+        time = ScheduledEvent.Time?.ToString("hh:mm tt");
         location = $"{ScheduledEvent.Location?.Street}, {ScheduledEvent.Location?.City}, {ScheduledEvent.Location?.State}, {ScheduledEvent.Location?.PostalCode} {ScheduledEvent.Location?.Country}";
         host = ScheduledEvent.Host.ShelterName;
 

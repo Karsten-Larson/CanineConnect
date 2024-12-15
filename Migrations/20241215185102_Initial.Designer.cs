@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CanineConnect.Migrations
 {
     [DbContext(typeof(CanineConnectContext))]
-    [Migration("20241213000819_Initial")]
+    [Migration("20241215185102_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -132,7 +132,7 @@ namespace CanineConnect.Migrations
                     b.ToTable("DogListing");
                 });
 
-            modelBuilder.Entity("CanineConnect.Models.Event", b =>
+            modelBuilder.Entity("CanineConnect.Models.EventPost", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -140,9 +140,9 @@ namespace CanineConnect.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("Date")
+                    b.Property<DateOnly?>("Date")
                         .IsRequired()
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -157,6 +157,10 @@ namespace CanineConnect.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<TimeOnly?>("Time")
+                        .IsRequired()
+                        .HasColumnType("time");
 
                     b.HasKey("Id");
 
@@ -317,7 +321,7 @@ namespace CanineConnect.Migrations
                     b.Navigation("Shelter");
                 });
 
-            modelBuilder.Entity("CanineConnect.Models.Event", b =>
+            modelBuilder.Entity("CanineConnect.Models.EventPost", b =>
                 {
                     b.HasOne("CanineConnect.Models.Shelter", "Host")
                         .WithMany()
