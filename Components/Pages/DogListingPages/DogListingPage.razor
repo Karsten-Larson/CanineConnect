@@ -7,30 +7,87 @@
 @inject IDbContextFactory<CanineConnectContext> DbContextFactory
 
 <style>
-        div.card:hover {
-            border: 1px solid #777;
-        }
+    div.card:hover {
+        border: 1px solid #777;
+    }
 
-        div.card img {
-            width: 100%;
-            height: auto;
-        }
+    div.card img {
+        width: 100%;
+        height: auto;
+    }
 
     div.card {
         padding: 15px;
         text-align: center;
     }
+
+    .filter-container {
+        margin-bottom: 20px;
+    }
+
+        .filter-container label {
+            font-weight: bold;
+        }
+
+        .filter-container input,
+        .filter-container select {
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
 </style>
 
 <br />
 <h2 class="text-success text-center mb-2">Dog Gallery</h2>
 
+<!-- Filter Section -->
+<div class="container filter-container">
+    <form>
+        <div class="row justify-content-center">
+            <!-- Name Filter -->
+            <div class="col-md-3">
+                <label for="filter-name">Name</label>
+                <InputText id="filter-name" @bind-Value="Filter.Name" class="form-control" placeholder="Name" />
+            </div>
+
+            <!-- Sex Filter -->
+            <div class="col-md-2">
+                <label for="filter-sex">Sex</label>
+                <select id="filter-sex" @bind="Filter.Sex" class="form-control">
+                    <option value="">All</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+
+            <!-- Breed Filter -->
+            <div class="col-md-3">
+                <label for="filter-breed">Breed</label>
+                <InputText id="filter-breed" @bind-Value="Filter.Breed" class="form-control" placeholder="Breed" />
+            </div>
+
+            <!-- Weight Filter -->
+            <div class="col-md-2">
+                <label for="filter-weight">Max Weight</label>
+                <InputNumber id="filter-weight" @bind-Value="Filter.MaxWeight" class="form-control" placeholder="Max Weight" />
+            </div>
+        </div>
+
+        <div class="row mt-2 justify-content-center">
+            <div class="col-md-2">
+                <button type="button" class="btn btn-primary" @onclick="ApplyFilter">Apply Filter</button>
+                <button type="button" class="btn btn-secondary" @onclick="ResetFilter">Reset</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Dog Listings -->
 <div class="container-fluid mt-1">
     <div class="row row-cols-1 row-cols-md-3">
-
-        @if (_dogs.Count != 0)
+        @if (_filteredDogs.Count != 0)
         {
-            @foreach (var dog in _dogs)
+            @foreach (var dog in _filteredDogs)
+
             {
                 <div class="col">
                     <div class="card mb-4 d-flex position-relative">
@@ -57,11 +114,15 @@
                             }
 
                             <a class="stretched-link" href="/doglistings/@dog.Id"></a>
-
                         </div>
                     </div>
                 </div>
             }
+        }
+
+        else
+        {
+            <p class="text-center">No dog listings match the current filters.</p>
         }
     </div>
 </div>
@@ -70,16 +131,51 @@
 
 @code {
     private List<DogListing> _dogs = new List<DogListing>();
+    private List<DogListing> _filteredDogs = new List<DogListing>();
+
+    // Filter model
+    private FilterModel Filter = new FilterModel();
 
     protected override async Task OnInitializedAsync()
     {
         using (var context = await DbContextFactory.CreateDbContextAsync())
         {
+            // Fetch all dogs from the database
             _dogs = await context.DogListing
                 .Include(e => e.Shelter)
                 .ToListAsync();
         }
 
-        await base.OnInitializedAsync();
+        // Show all dogs initially
+        _filteredDogs = new List<DogListing>(_dogs);
+    }
+
+    private void ApplyFilter()
+    {
+        // Apply filtering logic
+        _filteredDogs = _dogs
+            .Where(dog =>
+                (string.IsNullOrEmpty(Filter.Name) || dog.Name.Contains(Filter.Name, StringComparison.OrdinalIgnoreCase)) &&
+                (string.IsNullOrEmpty(Filter.Sex) || dog.Sex == Filter.Sex) &&
+                (string.IsNullOrEmpty(Filter.Breed) || dog.Breed?.Contains(Filter.Breed, StringComparison.OrdinalIgnoreCase) == true) &&
+                (!Filter.MaxWeight.HasValue || dog.Weight <= Filter.MaxWeight))
+            .ToList();
+    }
+
+    private void ResetFilter()
+    {
+        // Reset the filter model
+        Filter = new FilterModel();
+
+        // Reset the filtered list to show all dogs
+        _filteredDogs = new List<DogListing>(_dogs);
+    }
+
+    private class FilterModel
+    {
+        public string? Name { get; set; }
+        public string? Sex { get; set; }
+        public string? Breed { get; set; }
+        public decimal? MaxWeight { get; set; }
     }
 }
