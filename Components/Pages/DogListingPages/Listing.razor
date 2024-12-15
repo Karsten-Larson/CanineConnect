@@ -6,8 +6,25 @@
 
 @inject IDbContextFactory<CanineConnectContext> DbContextFactory
 
+<style>
+* {
+  box-sizing: border-box;
+}
 
-<h3>DogListing</h3>
+/* Create two equal columns that floats next to each other */
+.column {
+  float: right;
+  width: 50%;
+  padding: 10px;
+}
+
+/* Clear floats after the columns */
+.container:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
 
 @if (dog is not null)
 {
@@ -16,11 +33,8 @@
 
         <ul>
             <li><strong class="text-forestgreen">Breed: </strong>@dog.Breed</li>
-            <li><strong class="text-forestgreen">Birthdate: </strong>@dog.Age.ToString("MMMM dd yyyy")</li>
-            <li>
-                <strong class="text-forestgreen">Host Shelter: </strong>
-                <a href="/profile/shelter/@dog.ShelterId.ToString()">@dog.Shelter?.ShelterName</a>
-            </li>
+            <li><strong class="text-forestgreen">Birthdate: </strong>@dog.Age?.ToString("MMMM dd yyyy")</li>
+            <li><strong class="text-forestgreen">Host Shelter: </strong>@dog.Shelter?.ShelterName</li>
 
         </ul>
 
