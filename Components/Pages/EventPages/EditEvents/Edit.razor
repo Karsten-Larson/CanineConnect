@@ -1,5 +1,5 @@
 ﻿@rendermode InteractiveServer
-@page "/myeventposts/edit"
+@page "/events/edit"
 @using CanineConnect.Components.Pages.LoginPages
 @using Microsoft.EntityFrameworkCore
 @using CanineConnect.Models
@@ -56,7 +56,7 @@ else
 }
 
 <div>
-    <a href="/myeventposts">Back to List</a>
+    <a href="/events/index">Back to List</a>
 </div>
 </div>
 @code {
@@ -111,7 +111,7 @@ else
             }
         }
 
-        NavigationManager.NavigateTo("/myeventposts");
+        NavigationManager.NavigateTo("/events/index");
     }
 
     private bool EventPostExists(int id)

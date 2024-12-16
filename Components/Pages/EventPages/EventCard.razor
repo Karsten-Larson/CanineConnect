@@ -1,4 +1,8 @@
-﻿@using Models
+﻿@rendermode InteractiveServer
+
+@using Models
+@using StateObjects
+@inject State state
 
 <div class="card rounded">
     <div class="card-header bg-white">
@@ -12,7 +16,11 @@
             <p><strong class="text-forestgreen">Host Shelter: </strong>@host</p>
             <p>@ScheduledEvent.Description</p>
         </div>
-        <a href="/messages/create"><button class="btn btn-forestgreen p-2">Message Shelter</button></a>
+
+        @if (state.IsUser())
+        {
+            <a href="/messages/create"><button class="btn btn-forestgreen p-2">Message Shelter</button></a>
+        }
     </div>
 </div>
 

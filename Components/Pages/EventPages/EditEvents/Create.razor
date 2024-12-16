@@ -1,5 +1,5 @@
 ﻿@rendermode InteractiveServer
-@page "/myeventposts/create"
+@page "/events/create"
 @using Microsoft.EntityFrameworkCore
 @using CanineConnect.Models
 @using CanineConnect.Components.Pages.LoginPages
@@ -47,7 +47,7 @@
     </div>
 
     <div>
-        <a href="/myeventposts">Back to List</a>
+        <a href="/events/index">Back to List</a>
     </div>
 </div>
 @code {
@@ -68,6 +68,6 @@
         using var context = DbFactory.CreateDbContext();
         context.Event.Add(EventPost);
         await context.SaveChangesAsync();
-        NavigationManager.NavigateTo("/myeventposts");
+        NavigationManager.NavigateTo("/events/index");
     }
 }

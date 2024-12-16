@@ -1,5 +1,5 @@
 ﻿@rendermode InteractiveServer
-@page "/myeventposts"
+@page "/events/index"
 @using Microsoft.EntityFrameworkCore
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using CanineConnect.Models
@@ -15,7 +15,7 @@
     <h1 class="text-success text-center mb-2">Your Posted Events</h1>
 
     <p>
-        <a href="myeventposts/create">Create New</a>
+        <a href="events/create">Create New</a>
     </p>
 
     <QuickGrid Class="table" Items="events">
@@ -27,9 +27,9 @@
         <PropertyColumn Property="eventpost => eventpost.Host.ShelterName" Title="Host" />
 
         <TemplateColumn Context="eventpost">
-            <a href="@($"myeventposts/edit?id={eventpost.Id}")">Edit</a> |
-            <a href="@($"myeventposts/details?id={eventpost.Id}")">Details</a> |
-            <a href="@($"myeventposts/delete?id={eventpost.Id}")">Delete</a>
+            <a href="@($"events/edit?id={eventpost.Id}")">Edit</a> |
+            <a href="@($"events/details?id={eventpost.Id}")">Details</a> |
+            <a href="@($"events/delete?id={eventpost.Id}")">Delete</a>
         </TemplateColumn>
     </QuickGrid>
 </div>
