@@ -20,8 +20,6 @@
     <PropertyColumn Property="message => message.Timestamp" />
     <PropertyColumn Property="message => message.SenderId" />
     <PropertyColumn Property="message => message.ReceiverId" />
-    <PropertyColumn Property="message => message.ReceiverEmail" />
-    <PropertyColumn Property="message => message.SenderEmail" />
 
     <TemplateColumn Context="message">
         <a href="@($"admin/messages/edit?id={message.Id}")">Edit</a> |

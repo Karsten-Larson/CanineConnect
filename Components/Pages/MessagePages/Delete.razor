@@ -30,12 +30,12 @@
             <dd class="col-sm-10">@message.Timestamp</dd>
         </dl>
         <dl class="row">
-            <dt class="col-sm-2">ReceiverEmail</dt>
-            <dd class="col-sm-10">@message.ReceiverEmail</dd>
+            <dt class="col-sm-2">SenderId</dt>
+            <dd class="col-sm-10">@message.SenderId</dd>
         </dl>
         <dl class="row">
-            <dt class="col-sm-2">SenderEmail</dt>
-            <dd class="col-sm-10">@message.SenderEmail</dd>
+            <dt class="col-sm-2">ReceiverId</dt>
+            <dd class="col-sm-10">@message.ReceiverId</dd>
         </dl>
         <EditForm method="post" Model="message" OnValidSubmit="DeleteMessage" FormName="delete" Enhance>
             <button type="submit" class="btn btn-danger" disabled="@(message is null)">Delete</button> |

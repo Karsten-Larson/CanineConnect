@@ -23,10 +23,5 @@ namespace CanineConnect.Models
         public int ReceiverId { get; set; }
         [DeleteBehavior(DeleteBehavior.Restrict)]
         public User? Receiver { get; set; }
-
-        [Required]
-        public string? ReceiverEmail { get; set; }
-        [Required]
-        public string? SenderEmail { get; set; }
     }
 }

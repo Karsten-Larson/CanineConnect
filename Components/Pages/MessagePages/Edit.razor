@@ -1,4 +1,4 @@
-﻿@page "/admin/messages/edit"
+﻿@page "/messages/edit"
 @using Microsoft.EntityFrameworkCore
 @using CanineConnect.Models
 @inject IDbContextFactory<CanineConnect.Data.CanineConnectContext> DbFactory
@@ -54,7 +54,7 @@ else
 }
 
 <div>
-    <a href="/admin/messages">Back to List</a>
+    <a href="/messages">Back to List</a>
 </div>
 
 @code {
@@ -98,7 +98,7 @@ else
             }
         }
 
-        NavigationManager.NavigateTo("/admin/messages");
+        NavigationManager.NavigateTo("/messages");
     }
 
     private bool MessageExists(int id)
