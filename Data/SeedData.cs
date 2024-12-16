@@ -150,10 +150,10 @@ public class SeedData
         };
         EventPost event3 = new EventPost
         {
-            Name = "Valentines Day At the Pound",
+            Name = "Valentine's Day At the Pound",
             Date = new DateOnly(2025, 2, 14), 
             Time = new TimeOnly(16, 0),
-            Description = "Spend Valentines day around dogs in need of a home. Bring a significant otehr to help and enjoy time together in service of these dogs and the community.",
+            Description = "Spend Valentine's Day around dogs in need of a home. Bring a significant other to help and enjoy time together in service of these dogs and the community.",
             Location = shelter2.User.HomeAddress,
             Host = shelter2
         };
