@@ -1,4 +1,6 @@
-﻿@page "/doglistings"
+﻿@page "/doglistings/"
+
+@rendermode InteractiveServer
 
 @using CanineConnect.Data
 @using Models
@@ -6,23 +8,81 @@
 @using StateObjects
 
 @inject IDbContextFactory<CanineConnectContext> DbContextFactory
+@inject NavigationManager navigationManager
 @inject State state
 
-<style>
-        div.card:hover {
-            border: 1px solid #777;
-        }
 
-        div.card img {
-            width: 100%;
-            height: auto;
-        }
+<style>
+    div.card:hover {
+        border: 1px solid #777;
+    }
+
+    div.card img {
+        width: 100%;
+        height: auto;
+    }
 
     div.card {
         padding: 15px;
         text-align: center;
     }
+
+    .filter-container {
+        margin-bottom: 20px;
+    }
+
+        .filter-container label {
+            font-weight: bold;
+        }
+
+        .filter-container input,
+        .filter-container select {
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
 </style>
+
+<!-- Filter Section -->
+<div class="container filter-container">
+    <form method="get" autocomplete="on">
+        <div class="row justify-content-center">
+            <!-- Sex Filter -->
+            <div class="col-md-2">
+                <label for="Sex">Sex</label>
+                <select name="Sex" id="Sex" class="form-control" value="@Sex">
+                    <option value="">All</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+
+            <!-- Breed Filter -->
+            <div class="col-md-3">
+                <label for="Breed">Breed</label>
+                <input type="text" name="Breed" id="Breed" class="form-control" placeholder="Breed" value="@Breed" />
+            </div>
+
+            <!-- Min Weight Filter -->
+            <div class="col-md-2">
+                <label for="MinWeight">Min Weight</label>
+                <input type="number" name="MinWeight" id="MinWeight" class="form-control" placeholder="Min Weight" value="@MinWeight" />
+            </div>
+
+            <!-- Max Weight Filter -->
+            <div class="col-md-2">
+                <label for="MaxWeight">Max Weight</label>
+                <input type="number" name="MaxWeight" id="MaxWeight" class="form-control" placeholder="Max Weight" value="@MaxWeight" />
+            </div>
+
+            <div class="col-md-3 my-auto">
+                <button type="submit" class="btn btn-primary">Apply Filter</button>
+                <button type="button" class="btn btn-secondary" @onclick="ResetQueryParameters">Reset</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<hr />
 
 @if (state.IsUser() && @state.IsShelter())
 {
@@ -32,14 +92,17 @@
 }
 
 <br />
-<h2 class="text-success text-center mb-2">Dog Gallery</h2>
 
+<h2 class="text-success text-center mb-2">Dog Gallery</h2>
+<br />
+
+<!-- Dog Listings -->
 <div class="container-fluid mt-1">
     <div class="row row-cols-1 row-cols-md-3">
-
-        @if (_dogs.Count != 0)
+        @if (_filteredDogs.Count != 0)
         {
-            @foreach (var dog in _dogs)
+            @foreach (var dog in _filteredDogs)
+
             {
                 <div class="col">
                     <div class="card mb-4 d-flex position-relative">
@@ -66,10 +129,18 @@
                             }
 
                             <a class="stretched-link" href="/doglistings/@dog.Id"></a>
-
                         </div>
                     </div>
                 </div>
+            }
+        }
+
+        else
+        {
+            @if(!loading)
+            {
+                <p class="text-center">No dog listings match the current filters.</p>
+
             }
         }
     </div>
@@ -78,17 +149,76 @@
 <br />
 
 @code {
-    private List<DogListing> _dogs = new List<DogListing>();
+    [SupplyParameterFromQuery]
+    [Parameter]
+    public string? Breed { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    [SupplyParameterFromQuery]
+    [Parameter]
+    public string? Sex { get; set; }
+
+    [SupplyParameterFromQuery]
+    [Parameter]
+    public decimal? MinWeight { get; set; }
+
+    [SupplyParameterFromQuery]
+    [Parameter]
+    public decimal? MaxWeight { get; set; }
+
+    private List<DogListing> _filteredDogs = new List<DogListing>();
+    private bool loading = false;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        loading = true;
+
+        // Show all dogs initially
+        await ApplyFilter();
+        await base.OnParametersSetAsync();
+
+        loading = false;
+    }
+
+    private async Task ApplyFilter()
     {
         using (var context = await DbContextFactory.CreateDbContextAsync())
         {
-            _dogs = await context.DogListing
-                .Include(e => e.Shelter)
-                .ToListAsync();
-        }
+            // Apply filtering logic
+            _filteredDogs = await context.DogListing.Include(dog => dog.Shelter).ToListAsync();
 
-        await base.OnInitializedAsync();
+            if (!string.IsNullOrEmpty(Sex))
+            {
+                _filteredDogs = _filteredDogs.Where(dog => dog.Sex == Sex).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(Breed))
+            {
+                _filteredDogs = _filteredDogs.Where(dog => dog.Breed is not null && dog.Breed.Contains(Breed, StringComparison.CurrentCultureIgnoreCase)).ToList();
+            }
+
+            if (MaxWeight is not null)
+            {
+                _filteredDogs = _filteredDogs.Where(dog => dog.Weight <= MaxWeight).ToList();
+            }
+
+            if (MinWeight is not null)
+            {
+                _filteredDogs = _filteredDogs.Where(dog => dog.Weight >= MinWeight).ToList();
+            }
+
+            _filteredDogs = _filteredDogs.OrderBy(dog => dog.Age).ToList();
+        }
+    }
+
+    private void ResetQueryParameters()
+    {
+        // Get the current URI
+        var uri = new Uri(navigationManager.Uri);
+
+        // Extract the base URL without query parameters
+        var baseUrl = uri.GetLeftPart(UriPartial.Path);
+
+        // Navigate to the base URL
+        navigationManager.NavigateTo(baseUrl, true);
     }
 }
