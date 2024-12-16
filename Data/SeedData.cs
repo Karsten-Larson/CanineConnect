@@ -176,7 +176,7 @@ public class SeedData
             Weight = 60.0m,
             Age = new DateOnly(2024, 11, 15),
             Shelter = shelter1,
-            ThumbnailImage = File.ReadAllBytes("Data\\collie.jpg")
+            ThumbnailImage = File.ReadAllBytes("Data\\Assets\\collie.jpg")
         };
         DogListing listing2 = new DogListing
         {
@@ -186,7 +186,7 @@ public class SeedData
             Weight = 20.0m,
             Age = new DateOnly(2024, 8, 10),
             Shelter = shelter2,
-            ThumbnailImage = File.ReadAllBytes("Data\\shih-tzu.jpg")
+            ThumbnailImage = File.ReadAllBytes("Data\\Assets\\shih-tzu.jpg")
         };
         DogListing listing3 = new DogListing
         {
@@ -196,7 +196,7 @@ public class SeedData
             Weight = 40.0m,
             Age = new DateOnly(2020, 7, 11),
             Shelter = shelter3,
-            ThumbnailImage = File.ReadAllBytes("Data\\shepherd.jpg")
+            ThumbnailImage = File.ReadAllBytes("Data\\Assets\\shepherd.jpg")
         }; 
         DogListing listing4 = new DogListing
         {
@@ -206,7 +206,7 @@ public class SeedData
             Weight = 120.0m,
             Age = new DateOnly(2019, 5, 12),
             Shelter = shelter3,
-            ThumbnailImage = File.ReadAllBytes("Data\\great-dane.png")
+            ThumbnailImage = File.ReadAllBytes("Data\\Assets\\great-dane.png")
         };
         DogListing listing5 = new DogListing
         {
@@ -217,7 +217,7 @@ public class SeedData
             Description = "The most loving dog you could ever meet",
             Age = new DateOnly(2019, 5, 12),
             Shelter = shelter2,
-            ThumbnailImage = File.ReadAllBytes("Data\\pitbull.jpg")
+            ThumbnailImage = File.ReadAllBytes("Data\\Assets\\pitbull.jpg")
         };
 
         // Add to the database

@@ -12,10 +12,10 @@ namespace CanineConnect.Models
 
         [Required]
         public int DogListingId { get; set; }
-        public required DogListing DogListing { get; set; }
+        public DogListing? DogListing { get; set; }
 
         [Required]
         public int UserId { get; set; }
-        public required User User { get; set; }
+        public User? User { get; set; }
     }
 }

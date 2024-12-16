@@ -52,7 +52,7 @@
             </div>
             <div class="mb-3">
                 <label for="thumbnail">Thumbnail Image:</label>
-                <InputFile OnChange="HandleFileChange" accept=".jpg,.png" />
+                <InputFile OnChange="HandleFileChange" accept=".jpg,.png" multiple />
             </div>
             <div class="mb-3">
                 <label for="shelterid" class="form-label">ShelterId:</label> 
@@ -105,31 +105,24 @@
 
         foreach (var file in e.GetMultipleFiles(1))
         {
-            try
-            {
-                loadedFiles.Add(file);
-                // var path = Path.Combine(Environment.WebRootPath, "Images", file.Name);
-                ////save file to folder
-                // await using FileStream fs = new(path, FileMode.Create);
-                // await file.OpenReadStream().CopyToAsync(fs);
+            var path = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
 
-                byte[] fileContent = new byte[file.Size];
-                var result = await file.OpenReadStream(file.Size).ReadAsync(fileContent, 0, (Int32)file.Size);
+            await using var fs = new FileStream(path, FileMode.Create);
 
-                // save the fileContent into database.
-                DogListing.ThumbnailImage = fileContent;
+            await file.OpenReadStream(file.Size).CopyToAsync(fs);
 
-                //query the database and get the byte arrary
-                //convert the byte arrary to base64 string, and display it in image element.
-                // Imagepath = "data:image/png;base64, " + Convert.ToBase64String(fileContent);
-                // DogListing.ThumbnailImage = "data:image/png;base64, " + Convert.ToBase64String(fileContent);
-            }
-            catch (Exception ex)
-            {
-                errorMsg = ex.Message.ToString();
-                // Logger.LogError("File: {Filename} Error: {Error}",
-                //     file.Name, ex.Message);
-            }
+            var bytes = new byte[file.Size];
+
+            fs.Position = 0;
+
+            await fs.ReadAsync(bytes);
+
+            fs.Close();
+
+            File.Delete(path);
+
+            Console.WriteLine("Ran function");
+            DogListing.ThumbnailImage = bytes;
         }
     }
 }
