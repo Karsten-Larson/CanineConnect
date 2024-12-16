@@ -4,6 +4,7 @@ using CanineConnect.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CanineConnect.Migrations
 {
     [DbContext(typeof(CanineConnectContext))]
-    partial class CanineConnectContextModelSnapshot : ModelSnapshot
+    [Migration("20241216225500_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -137,7 +140,7 @@ namespace CanineConnect.Migrations
                     b.ToTable("DogListing");
                 });
 
-            modelBuilder.Entity("CanineConnect.Models.EventPost", b =>
+            modelBuilder.Entity("CanineConnect.Models.Event", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -145,9 +148,9 @@ namespace CanineConnect.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateOnly?>("Date")
+                    b.Property<DateTime?>("Date")
                         .IsRequired()
-                        .HasColumnType("date");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -162,10 +165,6 @@ namespace CanineConnect.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<TimeOnly?>("Time")
-                        .IsRequired()
-                        .HasColumnType("time");
 
                     b.HasKey("Id");
 
@@ -326,7 +325,7 @@ namespace CanineConnect.Migrations
                     b.Navigation("Shelter");
                 });
 
-            modelBuilder.Entity("CanineConnect.Models.EventPost", b =>
+            modelBuilder.Entity("CanineConnect.Models.Event", b =>
                 {
                     b.HasOne("CanineConnect.Models.Shelter", "Host")
                         .WithMany()

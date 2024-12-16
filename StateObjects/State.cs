@@ -25,7 +25,7 @@ namespace CanineConnect.StateObjects
                 Notify?.Invoke(); 
             }
         }
-
+        
         public bool IsUser()
         {
             return ActiveUser is not null;
