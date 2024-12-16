@@ -12,7 +12,8 @@
 <div class="container">
     <form>
         <div class="card">
-            <form class="card-body">
+            <EditForm class="card-body" method="post" Model="shelter" OnValidSubmit="HandleRegister" FormName="create" Enhance>
+                <DataAnnotationsValidator />
                 <ShelterForm shelter="shelter" />
                 <AddressForm EditableAddress="shelter.User.HomeAddress" />
 
@@ -23,8 +24,8 @@
                 }
 
                 <!-- Submit button -->
-                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4 mx-auto" @onclick="HandleRegister">Register</button>
-            </form>
+                <button type="submit" class="btn btn-primary">Register</button>
+            </EditForm>
         </div>
 
         <!--Sign in error message-->
