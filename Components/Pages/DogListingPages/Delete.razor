@@ -29,7 +29,7 @@ else
             <p><strong>Description:</strong> @doglisting.Description</p>
 
             <button class="btn btn-danger" @onclick="DeleteDogListing">Delete</button>
-            <button class="btn btn-secondary" href="/doglistings">Cancel</button>
+            <button class="btn btn-secondary" href="/doglistings/index">Cancel</button>
         </div>
     </div>
 }
@@ -70,6 +70,6 @@ else
         using var context = DbFactory.CreateDbContext();
         context.DogListing.Remove(doglisting!);
         await context.SaveChangesAsync();
-        NavigationManager.NavigateTo("/doglistings");
+        NavigationManager.NavigateTo("/doglistings/index");
     }
 }

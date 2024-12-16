@@ -52,7 +52,12 @@
                     <li><a class="dropdown-item" href="/profile/user/@state?.ActiveUser.Id.ToString()">Profile</a></li>
                     <li><a class="dropdown-item" href="#">Applications</a></li>
                     <li><a class="dropdown-item" href="/messages">Messages</a></li>
-                  
+
+                    @if (state.IsAdmin())
+                    {
+                        <li><a class="dropdown-item" href="/admin">Admin</a></li>
+                    }
+
                     @if (state.IsShelter())
                     {
                         <li><a class="dropdown-item" href="/profile/shelter/@state?.ActiveShelter.Id.ToString()">Shelter</a></li>

@@ -5,9 +5,12 @@
 @using CanineConnect.Data
 @using Models
 @using Microsoft.EntityFrameworkCore
+@using StateObjects
 
 @inject IDbContextFactory<CanineConnectContext> DbContextFactory
 @inject NavigationManager navigationManager
+@inject State state
+
 
 <style>
     div.card:hover {
@@ -80,6 +83,16 @@
 </div>
 
 <hr />
+
+@if (state.IsUser() && @state.IsShelter())
+{
+    <div style="padding-top: 20px;padding-right: 20px; float: right">
+        <a class="btn btn-forestgreen p-2" style="font-size: 1.5rem;" href="/doglistings/index">My Dogs</a>
+    </div>
+}
+
+<br />
+
 <h2 class="text-success text-center mb-2">Dog Gallery</h2>
 <br />
 

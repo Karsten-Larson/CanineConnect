@@ -36,6 +36,13 @@ namespace CanineConnect.StateObjects
             return ActiveShelter is not null;
         }
 
+        public bool IsAdmin()
+        {
+            if (!IsUser()) return false;
+
+            return ActiveUser?.Email == "admin";
+        }
+
         public event Action Notify;
     }
 }
