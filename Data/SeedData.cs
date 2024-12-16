@@ -177,7 +177,7 @@ public class SeedData
             Age = new DateOnly(2024, 11, 15),
             Shelter = shelter1,
             ThumbnailImage = File.ReadAllBytes("Data\\Assets\\collie.jpg"),
-            Description = "W dog frfr. This dog is super healthy and its temperment is super loving."
+            Description = "Rocky is earnestly healthy, playful, and his temperament is extremely loving."
         };
         DogListing listing2 = new DogListing
         {
@@ -210,7 +210,7 @@ public class SeedData
             Age = new DateOnly(2019, 5, 12),
             Shelter = shelter3,
             ThumbnailImage = File.ReadAllBytes("Data\\Assets\\great-dane.png"),
-            Description = "Bro is the goat. Bro is healthy. Bro has good temperment."
+            Description = "Duke is nonchalant. Duke doesn't show high levels of energy. He's healthy and temperament is calm."
         };
         DogListing listing5 = new DogListing
         {
@@ -218,7 +218,7 @@ public class SeedData
             Sex = "Female",
             Breed = "Pitbull",
             Weight = 82.5m,
-            Description = "The most loving dog you could ever meet. She has the best temperment, and is healthy and up to date on medical requirements. This jawn will always be by yur side.",
+            Description = "The most loving dog you could ever meet. She has the best temperament, and is healthy and up to date on medical requirements.",
             Age = new DateOnly(2019, 5, 12),
             Shelter = shelter2,
             ThumbnailImage = File.ReadAllBytes("Data\\Assets\\pitbull.jpg")
