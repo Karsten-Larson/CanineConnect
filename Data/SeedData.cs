@@ -17,11 +17,11 @@ public class SeedData
                 "Null CanineConnect Database");
         }
 
-        //context.Event.ExecuteDelete();
-        //context.Shelter.ExecuteDelete();
-        //context.User.ExecuteDelete();
-        //context.Address.ExecuteDelete();
-        //context.DogListing.ExecuteDelete();
+        context.Event.ExecuteDelete();
+        context.Shelter.ExecuteDelete();
+        context.User.ExecuteDelete();
+        context.Address.ExecuteDelete();
+        context.DogListing.ExecuteDelete();
 
         if (context.User.Any() || context.Address.Any() || context.Event.Any() || context.Shelter.Any() || context.DogListing.Any())
         {
@@ -63,6 +63,15 @@ public class SeedData
         };
 
         // Users
+        User admin = new User
+        {
+            FirstName = "Admin",
+            LastName = "Admin",
+            Email = "admin",
+            Password = "1234",
+            Age = DateOnly.FromDateTime(DateTime.Now),
+            HomeAddress = address1,
+        };
         User user1 = new User
         {
             FirstName = "Anne",
@@ -121,34 +130,38 @@ public class SeedData
         };
 
         // Events
-        Event event1 = new Event
+        EventPost event1 = new EventPost
         {
             Name = "Animal Rescue Day",
-            Date = new DateTime(new DateOnly(2025, 1, 1), new TimeOnly(14, 0)),
+            Date = new DateOnly(2025, 1, 1), 
+            Time = new TimeOnly(14, 0),
             Description = "Start the new year off right by volunteering at the dog shelter.",
             Location = address4,
             Host = shelter1
         };
-        Event event2 = new Event
+        EventPost event2 = new EventPost
         {
             Name = "Christmas at the Pound",
-            Date = new DateTime(new DateOnly(2024, 12, 25), new TimeOnly(10, 0)),
+            Date = new DateOnly(2024, 12, 25),
+            Time = new TimeOnly(10, 0),
             Description = "Experience Christmas at the Pound with the dogs. Santa will join us to bring treats for the pups and humans too!",
             Location = shelter2.User.HomeAddress,
             Host = shelter2
         };
-        Event event3 = new Event
+        EventPost event3 = new EventPost
         {
-            Name = "Valentines Day At the Pound",
-            Date = new DateTime(new DateOnly(2025, 2, 14), new TimeOnly(16, 0)),
-            Description = "Spend Valentines day around dogs in need of a home. Bring a significant otehr to help and enjoy time together in service of these dogs and the community.",
+            Name = "Valentine's Day At the Pound",
+            Date = new DateOnly(2025, 2, 14), 
+            Time = new TimeOnly(16, 0),
+            Description = "Spend Valentine's Day around dogs in need of a home. Bring a significant other to help and enjoy time together in service of these dogs and the community.",
             Location = shelter2.User.HomeAddress,
             Host = shelter2
         };
-        Event event4 = new Event
+        EventPost event4 = new EventPost
         {
             Name = "Red, White, and Roof",
-            Date = new DateTime(new DateOnly(2025, 6, 4), new TimeOnly(12, 0)),
+            Date = new DateOnly(2025, 6, 4), 
+            Time = new TimeOnly(12, 0),
             Description = "July 4th at Lincoln Park deserves to be celebrated with friends, fellow Americans, and dogs in need of a home. This event is an adoption event that requires volunteers to run smoothly. Please come and help out on our Nation's birthday!",
             Location = address4,
             Host = shelter3
@@ -163,7 +176,8 @@ public class SeedData
             Weight = 60.0m,
             Age = new DateOnly(2024, 11, 15),
             Shelter = shelter1,
-            ThumbnailImage = File.ReadAllBytes("Data\\collie.jpg")
+            ThumbnailImage = File.ReadAllBytes("Data\\Assets\\collie.jpg"),
+            Description = "Rocky is earnestly healthy, playful, and his temperament is extremely loving."
         };
         DogListing listing2 = new DogListing
         {
@@ -173,7 +187,8 @@ public class SeedData
             Weight = 20.0m,
             Age = new DateOnly(2024, 8, 10),
             Shelter = shelter2,
-            ThumbnailImage = File.ReadAllBytes("Data\\shih-tzu.jpg")
+            ThumbnailImage = File.ReadAllBytes("Data\\Assets\\shih-tzu.jpg"),
+            Description = "This dog is in perfect health and loves other animals, except for giraffes."
         };
         DogListing listing3 = new DogListing
         {
@@ -183,7 +198,8 @@ public class SeedData
             Weight = 40.0m,
             Age = new DateOnly(2020, 7, 11),
             Shelter = shelter3,
-            ThumbnailImage = File.ReadAllBytes("Data\\shepherd.jpg")
+            ThumbnailImage = File.ReadAllBytes("Data\\Assets\\shepherd.jpg"),
+            Description = "This dog loves to run and chase squirrels. She is healthy and happy all the time."
         }; 
         DogListing listing4 = new DogListing
         {
@@ -193,7 +209,8 @@ public class SeedData
             Weight = 120.0m,
             Age = new DateOnly(2019, 5, 12),
             Shelter = shelter3,
-            ThumbnailImage = File.ReadAllBytes("Data\\great-dane.png")
+            ThumbnailImage = File.ReadAllBytes("Data\\Assets\\great-dane.png"),
+            Description = "Duke is nonchalant. Duke doesn't show high levels of energy. He's healthy and temperament is calm."
         };
         DogListing listing5 = new DogListing
         {
@@ -201,15 +218,15 @@ public class SeedData
             Sex = "Female",
             Breed = "Pitbull",
             Weight = 82.5m,
-            Description = "The most loving dog you could ever meet",
+            Description = "The most loving dog you could ever meet. She has the best temperament, and is healthy and up to date on medical requirements.",
             Age = new DateOnly(2019, 5, 12),
             Shelter = shelter2,
-            ThumbnailImage = File.ReadAllBytes("Data\\pitbull.jpg")
+            ThumbnailImage = File.ReadAllBytes("Data\\Assets\\pitbull.jpg")
         };
 
         // Add to the database
         context.Address.AddRange(address1, address2, address3, address4);
-        context.User.AddRange(user1, user2, user3, user4);
+        context.User.AddRange(admin, user1, user2, user3, user4);
         context.Shelter.AddRange(shelter1, shelter2, shelter3);
         context.Event.AddRange(event1, event2, event3, event4);
         context.DogListing.AddRange(listing1, listing2, listing3, listing4, listing5);

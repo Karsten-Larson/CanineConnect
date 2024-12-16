@@ -19,7 +19,11 @@ namespace CanineConnect.StateObjects
         public Shelter? ActiveShelter
         {
             get { return _activeShelter; }
-            set { _activeShelter = value; Notify?.Invoke(); }
+            set 
+            { 
+                _activeShelter = value; 
+                Notify?.Invoke(); 
+            }
         }
         
         public bool IsUser()
@@ -30,6 +34,13 @@ namespace CanineConnect.StateObjects
         public bool IsShelter()
         {
             return ActiveShelter is not null;
+        }
+
+        public bool IsAdmin()
+        {
+            if (!IsUser()) return false;
+
+            return ActiveUser?.Email == "admin";
         }
 
         public event Action Notify;

@@ -8,65 +8,37 @@
 
 <h4 class="text-center">Address Information</h4>
 
-<!-- State input -->
-<div data-mdb-input-init class="form-outline mb-4">
-    <label class="form-label" for="street">Street</label>
-    <input type="text" id="street" class="form-control" @bind="Street" @bind:event="oninput" required />
+<div class="mb-3">
+    <label for="street" class="form-label">Street:</label>
+    <InputText id="street" @bind-Value="EditableAddress.Street" class="form-control" aria-required="true" />
+    <ValidationMessage For="() => EditableAddress.Street" class="text-danger" />
 </div>
 
-<!-- City input -->
-<div data-mdb-input-init class="form-outline mb-4">
-    <label class="form-label" for="city">City</label>
-    <input type="text" id="city" class="form-control" @bind="City" @bind:event="oninput" required />
+<div class="mb-3">
+    <label for="city" class="form-label">City:</label>
+    <InputText id="street" @bind-Value="EditableAddress.City" class="form-control" aria-required="true" />
+    <ValidationMessage For="() => EditableAddress.City" class="text-danger" />
 </div>
 
-<!-- State input -->
-<div data-mdb-input-init class="form-outline mb-4">
-    <label class="form-label" for="state">State</label>
-    <input type="text" id="state" class="form-control" @bind="State" @bind:event="oninput" required />
+<div class="mb-3">
+    <label for="state" class="form-label">State:</label>
+    <InputText id="state" @bind-Value="EditableAddress.State" class="form-control" aria-required="true" />
+    <ValidationMessage For="() => EditableAddress.State" class="text-danger" />
 </div>
 
-<!-- Country input -->
-<div data-mdb-input-init class="form-outline mb-4">
-    <label class="form-label" for="country">Country</label>
-    <input type="text" id="country" class="form-control" @bind="Country" @bind:event="oninput" required />
+<div class="mb-3">
+    <label for="postalcode" class="form-label">Postal Code:</label>
+    <InputText id="postalcode" @bind-Value="EditableAddress.PostalCode" class="form-control" aria-required="true" />
+    <ValidationMessage For="() => EditableAddress.PostalCode" class="text-danger" />
 </div>
 
-<!-- PostalCode input -->
-<div data-mdb-input-init class="form-outline mb-4">
-    <label class="form-label" for="postal-code">Postal Code</label>
-    <input type="text" id="postal-code" class="form-control" @bind="PostalCode" @bind:event="oninput" required />
+<div class="mb-3">
+    <label for="country" class="form-label">Country:</label>
+    <InputText id="country" @bind-Value="EditableAddress.Country" class="form-control" aria-required="true" />
+    <ValidationMessage For="() => EditableAddress.Country" class="text-danger" />
 </div>
 
 @code {
     [Parameter, EditorRequired]
     public required Address EditableAddress { get; set; }
-
-    string? errorMsg;
-
-    string Street
-    {
-        get { return EditableAddress.Street; }
-        set { EditableAddress.Street = value; }
-    }
-    string City
-    {
-        get { return EditableAddress.City; }
-        set { EditableAddress.City = value; }
-    }
-    string State
-    {
-        get { return EditableAddress.State; }
-        set { EditableAddress.State = value; }
-    }
-    string PostalCode
-    {
-        get { return EditableAddress.PostalCode; }
-        set { EditableAddress.PostalCode = value; }
-    }
-    string Country
-    {
-        get { return EditableAddress.Country; }
-        set { EditableAddress.Country = value; }
-    }
 }
