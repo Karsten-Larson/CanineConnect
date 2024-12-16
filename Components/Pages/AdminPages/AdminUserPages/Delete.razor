@@ -47,7 +47,7 @@
         </dl>
         <EditForm method="post" Model="user" OnValidSubmit="DeleteUser" FormName="delete" Enhance>
             <button type="submit" class="btn btn-danger" disabled="@(user is null)">Delete</button> |
-            <a href="/users">Back to List</a>
+            <a href="/admin/users">Back to List</a>
         </EditForm>
     }
 </div>
@@ -74,6 +74,6 @@
         using var context = DbFactory.CreateDbContext();
         context.User.Remove(user!);
         await context.SaveChangesAsync();
-        NavigationManager.NavigateTo("/users");
+        NavigationManager.NavigateTo("/admin/users");
     }
 }

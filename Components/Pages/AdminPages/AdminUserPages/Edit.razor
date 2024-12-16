@@ -52,7 +52,11 @@ else
                     <InputText id="phone" @bind-Value="User.Phone" class="form-control" />
                     <ValidationMessage For="() => User.Phone" class="text-danger" />
                 </div>
-                <CanineConnect.Components.Pages.LoginPages.AddressForm EditableAddress="User.HomeAddress" />
+                <div class="mb-3">
+                    <label for="homeaddressid" class="form-label">HomeAddressId:</label>
+                    <InputNumber id="homeaddressid" @bind-Value="User.HomeAddressId" class="form-control" aria-required="true"/>
+                    <ValidationMessage For="() => User.HomeAddressId" class="text-danger" />
+                </div>
                 <button type="submit" class="btn btn-primary">Save</button>
             </EditForm>
         </div>
@@ -104,7 +108,7 @@ else
             }
         }
 
-        NavigationManager.NavigateTo("/users");
+        NavigationManager.NavigateTo("/admin/users");
     }
 
     private bool UserExists(int id)
