@@ -1,10 +1,13 @@
-﻿@page "/doglistings"
+﻿@page "/doglistings/"
+
+@rendermode InteractiveServer
 
 @using CanineConnect.Data
 @using Models
 @using Microsoft.EntityFrameworkCore
 
 @inject IDbContextFactory<CanineConnectContext> DbContextFactory
+@inject NavigationManager navigationManager
 
 <style>
     div.card:hover {
@@ -36,23 +39,14 @@
         }
 </style>
 
-<br />
-<h2 class="text-success text-center mb-2">Dog Gallery</h2>
-
 <!-- Filter Section -->
 <div class="container filter-container">
-    <form>
+    <form method="get" autocomplete="on">
         <div class="row justify-content-center">
-            <!-- Name Filter -->
-            <div class="col-md-3">
-                <label for="filter-name">Name</label>
-                <InputText id="filter-name" @bind-Value="Filter.Name" class="form-control" placeholder="Name" />
-            </div>
-
             <!-- Sex Filter -->
             <div class="col-md-2">
-                <label for="filter-sex">Sex</label>
-                <select id="filter-sex" @bind="Filter.Sex" class="form-control">
+                <label for="Sex">Sex</label>
+                <select name="Sex" id="Sex" class="form-control" value="@Sex">
                     <option value="">All</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
@@ -61,25 +55,33 @@
 
             <!-- Breed Filter -->
             <div class="col-md-3">
-                <label for="filter-breed">Breed</label>
-                <InputText id="filter-breed" @bind-Value="Filter.Breed" class="form-control" placeholder="Breed" />
+                <label for="Breed">Breed</label>
+                <input type="text" name="Breed" id="Breed" class="form-control" placeholder="Breed" value="@Breed" />
             </div>
 
-            <!-- Weight Filter -->
+            <!-- Min Weight Filter -->
             <div class="col-md-2">
-                <label for="filter-weight">Max Weight</label>
-                <InputNumber id="filter-weight" @bind-Value="Filter.MaxWeight" class="form-control" placeholder="Max Weight" />
+                <label for="MinWeight">Min Weight</label>
+                <input type="number" name="MinWeight" id="MinWeight" class="form-control" placeholder="Min Weight" value="@MinWeight" />
             </div>
-        </div>
 
-        <div class="row mt-2 justify-content-center">
+            <!-- Max Weight Filter -->
             <div class="col-md-2">
-                <button type="button" class="btn btn-primary" @onclick="ApplyFilter">Apply Filter</button>
-                <button type="button" class="btn btn-secondary" @onclick="ResetFilter">Reset</button>
+                <label for="MaxWeight">Max Weight</label>
+                <input type="number" name="MaxWeight" id="MaxWeight" class="form-control" placeholder="Max Weight" value="@MaxWeight" />
+            </div>
+
+            <div class="col-md-3 my-auto">
+                <button type="submit" class="btn btn-primary">Apply Filter</button>
+                <button type="button" class="btn btn-secondary" @onclick="ResetQueryParameters">Reset</button>
             </div>
         </div>
     </form>
 </div>
+
+<hr />
+<h2 class="text-success text-center mb-2">Dog Gallery</h2>
+<br />
 
 <!-- Dog Listings -->
 <div class="container-fluid mt-1">
@@ -122,7 +124,11 @@
 
         else
         {
-            <p class="text-center">No dog listings match the current filters.</p>
+            @if(!loading)
+            {
+                <p class="text-center">No dog listings match the current filters.</p>
+
+            }
         }
     </div>
 </div>
@@ -130,52 +136,76 @@
 <br />
 
 @code {
-    private List<DogListing> _dogs = new List<DogListing>();
+    [SupplyParameterFromQuery]
+    [Parameter]
+    public string? Breed { get; set; }
+
+    [SupplyParameterFromQuery]
+    [Parameter]
+    public string? Sex { get; set; }
+
+    [SupplyParameterFromQuery]
+    [Parameter]
+    public decimal? MinWeight { get; set; }
+
+    [SupplyParameterFromQuery]
+    [Parameter]
+    public decimal? MaxWeight { get; set; }
+
     private List<DogListing> _filteredDogs = new List<DogListing>();
+    private bool loading = false;
 
-    // Filter model
-    private FilterModel Filter = new FilterModel();
+    protected override async Task OnParametersSetAsync()
+    {
+        loading = true;
 
-    protected override async Task OnInitializedAsync()
+        // Show all dogs initially
+        await ApplyFilter();
+        await base.OnParametersSetAsync();
+
+        loading = false;
+    }
+
+    private async Task ApplyFilter()
     {
         using (var context = await DbContextFactory.CreateDbContextAsync())
         {
-            // Fetch all dogs from the database
-            _dogs = await context.DogListing
-                .Include(e => e.Shelter)
-                .ToListAsync();
+            // Apply filtering logic
+            _filteredDogs = await context.DogListing.Include(dog => dog.Shelter).ToListAsync();
+
+            if (!string.IsNullOrEmpty(Sex))
+            {
+                _filteredDogs = _filteredDogs.Where(dog => dog.Sex == Sex).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(Breed))
+            {
+                _filteredDogs = _filteredDogs.Where(dog => dog.Breed is not null && dog.Breed.Contains(Breed, StringComparison.CurrentCultureIgnoreCase)).ToList();
+            }
+
+            if (MaxWeight is not null)
+            {
+                _filteredDogs = _filteredDogs.Where(dog => dog.Weight <= MaxWeight).ToList();
+            }
+
+            if (MinWeight is not null)
+            {
+                _filteredDogs = _filteredDogs.Where(dog => dog.Weight >= MinWeight).ToList();
+            }
+
+            _filteredDogs = _filteredDogs.OrderBy(dog => dog.Age).ToList();
         }
-
-        // Show all dogs initially
-        _filteredDogs = new List<DogListing>(_dogs);
     }
 
-    private void ApplyFilter()
+    private void ResetQueryParameters()
     {
-        // Apply filtering logic
-        _filteredDogs = _dogs
-            .Where(dog =>
-                (string.IsNullOrEmpty(Filter.Name) || dog.Name.Contains(Filter.Name, StringComparison.OrdinalIgnoreCase)) &&
-                (string.IsNullOrEmpty(Filter.Sex) || dog.Sex == Filter.Sex) &&
-                (string.IsNullOrEmpty(Filter.Breed) || dog.Breed?.Contains(Filter.Breed, StringComparison.OrdinalIgnoreCase) == true) &&
-                (!Filter.MaxWeight.HasValue || dog.Weight <= Filter.MaxWeight))
-            .ToList();
-    }
+        // Get the current URI
+        var uri = new Uri(navigationManager.Uri);
 
-    private void ResetFilter()
-    {
-        // Reset the filter model
-        Filter = new FilterModel();
+        // Extract the base URL without query parameters
+        var baseUrl = uri.GetLeftPart(UriPartial.Path);
 
-        // Reset the filtered list to show all dogs
-        _filteredDogs = new List<DogListing>(_dogs);
-    }
-
-    private class FilterModel
-    {
-        public string? Name { get; set; }
-        public string? Sex { get; set; }
-        public string? Breed { get; set; }
-        public decimal? MaxWeight { get; set; }
+        // Navigate to the base URL
+        navigationManager.NavigateTo(baseUrl, true);
     }
 }
