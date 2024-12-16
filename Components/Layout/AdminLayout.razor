@@ -1,0 +1,42 @@
+﻿@inherits LayoutComponentBase
+@using StateObjects
+@inject State state
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/bootstrap/main.css">
+    <link rel="stylesheet" type="text/css" href="/my-colors.css">
+</head>
+
+<div class="page">
+    <main>
+        <!--Navbar-->
+        <Navbar />
+        @if (state.IsAdmin())
+        {
+
+
+            <!-- Body -->
+            <div class="my-4">
+                @Body
+            </div>
+
+
+        }
+        else
+        {
+            <div class="my-4">
+                <h3>403 Error</h3>
+                <p>Access denied</p>
+            </div>
+        }
+        <!-- FOOTER -->
+        <Footer />
+    </main>
+</div>
+
+<!-- Was here before I changed anything so I left it. Not completely sure what it does. -->
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>
