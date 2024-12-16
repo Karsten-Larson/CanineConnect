@@ -176,7 +176,8 @@ public class SeedData
             Weight = 60.0m,
             Age = new DateOnly(2024, 11, 15),
             Shelter = shelter1,
-            ThumbnailImage = File.ReadAllBytes("Data\\Assets\\collie.jpg")
+            ThumbnailImage = File.ReadAllBytes("Data\\Assets\\collie.jpg"),
+            Description = "W dog frfr. This dog is super healthy and its temperment is super loving."
         };
         DogListing listing2 = new DogListing
         {
@@ -186,7 +187,8 @@ public class SeedData
             Weight = 20.0m,
             Age = new DateOnly(2024, 8, 10),
             Shelter = shelter2,
-            ThumbnailImage = File.ReadAllBytes("Data\\Assets\\shih-tzu.jpg")
+            ThumbnailImage = File.ReadAllBytes("Data\\Assets\\shih-tzu.jpg"),
+            Description = "This dog is in perfect health and loves other animals, except for giraffes."
         };
         DogListing listing3 = new DogListing
         {
@@ -196,7 +198,8 @@ public class SeedData
             Weight = 40.0m,
             Age = new DateOnly(2020, 7, 11),
             Shelter = shelter3,
-            ThumbnailImage = File.ReadAllBytes("Data\\Assets\\shepherd.jpg")
+            ThumbnailImage = File.ReadAllBytes("Data\\Assets\\shepherd.jpg"),
+            Description = "This dog loves to run and chase squirrels. She is healthy and happy all the time."
         }; 
         DogListing listing4 = new DogListing
         {
@@ -206,7 +209,8 @@ public class SeedData
             Weight = 120.0m,
             Age = new DateOnly(2019, 5, 12),
             Shelter = shelter3,
-            ThumbnailImage = File.ReadAllBytes("Data\\Assets\\great-dane.png")
+            ThumbnailImage = File.ReadAllBytes("Data\\Assets\\great-dane.png"),
+            Description = "Bro is the goat. Bro is healthy. Bro has good temperment."
         };
         DogListing listing5 = new DogListing
         {
@@ -214,7 +218,7 @@ public class SeedData
             Sex = "Female",
             Breed = "Pitbull",
             Weight = 82.5m,
-            Description = "The most loving dog you could ever meet",
+            Description = "The most loving dog you could ever meet. She has the best temperment, and is healthy and up to date on medical requirements. This jawn will always be by yur side.",
             Age = new DateOnly(2019, 5, 12),
             Shelter = shelter2,
             ThumbnailImage = File.ReadAllBytes("Data\\Assets\\pitbull.jpg")
