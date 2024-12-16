@@ -7,7 +7,7 @@
 @inject IDbContextFactory<CanineConnectContext> DbContextFactory
 
 
-<h3>DogListing</h3>
+<h3>Dog Listing</h3>
 
 @if (dog is not null)
 {
@@ -29,6 +29,7 @@
             <img class="card-img" src="data:image;base64,@System.Convert.ToBase64String(dog.ThumbnailImage)" />
         }
     </div>
+    <a href="/applications/create/@DogID"><button class="btn btn-forestgreen p-2">Apply for Dog!</button></a>
 }
 else
 {

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CanineConnect.Migrations
 {
     [DbContext(typeof(CanineConnectContext))]
-    [Migration("20241211201902_Initial")]
-    partial class Initial
+    [Migration("20241216223712_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -72,11 +72,19 @@ namespace CanineConnect.Migrations
                     b.Property<int>("DogListingId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("Timestamp")
-                        .IsRequired()
+                    b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("dependents")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("numb_of_animals")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("salary")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

@@ -69,11 +69,19 @@ namespace CanineConnect.Migrations
                     b.Property<int>("DogListingId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("Timestamp")
-                        .IsRequired()
+                    b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("dependents")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("numb_of_animals")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("salary")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

@@ -21,7 +21,7 @@ namespace CanineConnect.StateObjects
             get { return _activeShelter; }
             set { _activeShelter = value; Notify?.Invoke(); }
         }
-
+        
         public bool IsUser()
         {
             return ActiveUser is not null;

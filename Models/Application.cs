@@ -8,14 +8,21 @@ namespace CanineConnect.Models
         [Required]
         public bool Approved { get; set; }
         [Required]
-        public DateTime? Timestamp { get; set; }
+        public DateTime Timestamp { get; set; }
 
         [Required]
         public int DogListingId { get; set; }
-        public required DogListing DogListing { get; set; }
+        
+        public DogListing? DogListing { get; set; }
 
         [Required]
         public int UserId { get; set; }
-        public required User User { get; set; }
+        public User? User { get; set; }
+
+        public int? salary { get; set; }
+        public int? numb_of_animals { get; set; }
+        public int? dependents { get; set; }
+
+
     }
 }
