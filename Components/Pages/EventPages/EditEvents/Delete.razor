@@ -1,5 +1,5 @@
 ﻿@rendermode InteractiveServer
-@page "/myeventposts/delete"
+@page "/events/delete"
 @using Microsoft.EntityFrameworkCore
 @using CanineConnect.Models
 @inject IDbContextFactory<CanineConnect.Data.CanineConnectContext> DbFactory
@@ -44,7 +44,7 @@
             </dl>
             <EditForm method="post" Model="eventpost" OnValidSubmit="DeleteEventPost" FormName="delete" Enhance>
                 <button type="submit" class="btn btn-danger" disabled="@(eventpost is null)">Delete</button> |
-                <a href="/myeventposts">Back to List</a>
+                <a href="/events/index">Back to List</a>
             </EditForm>
         }
     </div>
@@ -83,7 +83,7 @@
         using var context = DbFactory.CreateDbContext();
         context.Event.Remove(eventpost!);
         await context.SaveChangesAsync();
-        NavigationManager.NavigateTo("/myeventposts");
+        NavigationManager.NavigateTo("/events/index");
     }
 
     protected string LocationToString(Address address)

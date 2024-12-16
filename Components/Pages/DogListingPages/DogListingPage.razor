@@ -184,29 +184,29 @@
         using (var context = await DbContextFactory.CreateDbContextAsync())
         {
             // Apply filtering logic
-            _filteredDogs = await context.DogListing.Include(dog => dog.Shelter).ToListAsync();
+            IQueryable<DogListing> result = context.DogListing.Include(dog => dog.Shelter);
 
             if (!string.IsNullOrEmpty(Sex))
             {
-                _filteredDogs = _filteredDogs.Where(dog => dog.Sex == Sex).ToList();
+                result = result.Where(dog => dog.Sex == Sex);
             }
 
             if (!string.IsNullOrEmpty(Breed))
             {
-                _filteredDogs = _filteredDogs.Where(dog => dog.Breed is not null && dog.Breed.Contains(Breed, StringComparison.CurrentCultureIgnoreCase)).ToList();
+                result = result.Where(dog => dog.Breed != null && dog.Breed.Contains(Breed, StringComparison.CurrentCultureIgnoreCase));
             }
 
             if (MaxWeight is not null)
             {
-                _filteredDogs = _filteredDogs.Where(dog => dog.Weight <= MaxWeight).ToList();
+                result = result.Where(dog => dog.Weight <= MaxWeight);
             }
 
             if (MinWeight is not null)
             {
-                _filteredDogs = _filteredDogs.Where(dog => dog.Weight >= MinWeight).ToList();
+                result = result.Where(dog => dog.Weight >= MinWeight);
             }
 
-            _filteredDogs = _filteredDogs.OrderBy(dog => dog.Age).ToList();
+            _filteredDogs = await result.OrderBy(dog => dog.Age).ToListAsync();
         }
     }
 
