@@ -19,11 +19,6 @@
 
         <hr />
 
-        @if (activeUser)
-        {
-            <a href="/profile/user/edit">Edit</a>
-        }
-
         <h4>Personal Information</h4>
         <ul>
             <li>Email: @user.Email</li>
@@ -53,8 +48,9 @@
     public int? UserID { get; set; }
 
     private User? user;
-    private string name = "";
+    private string? name = null;
     private bool activeUser = false;
+    private bool adminPage = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -67,8 +63,16 @@
 
             if (user is not null)
             {
-                name = user.FirstName + " " + user.LastName;
-                activeUser = (state.IsUser()) ? user.Id == state?.ActiveUser?.Id : false;
+                if (user.Email == "admin")
+                {
+                    activeUser = true;
+                    adminPage = true;
+                }
+                else
+                {
+                    name = user.FirstName + " " + user.LastName;
+                    activeUser = (state.IsUser()) ? user.Id == state?.ActiveUser?.Id : false;
+                }
             }
         }
 
