@@ -1,4 +1,5 @@
 ﻿@page "/admin/doglistings/create"
+@rendermode InteractiveServer
 @using Microsoft.EntityFrameworkCore
 @using CanineConnect.Models
 @inject IDbContextFactory<CanineConnect.Data.CanineConnectContext> DbFactory
@@ -52,7 +53,7 @@
             </div>
             <div class="mb-3">
                 <label for="thumbnail">Thumbnail Image:</label>
-                <InputFile OnChange="HandleFileChange" accept=".jpg,.png" multiple />
+                <InputFile OnChange="HandleFileChange" accept=".jpg,.png" />
             </div>
             <div class="mb-3">
                 <label for="shelterid" class="form-label">ShelterId:</label> 
@@ -81,6 +82,13 @@
 
     private string? errorMsg = null;
     bool isLoading = false;
+
+    protected override Task OnInitializedAsync()
+    {
+        DogListing.Age = new DateOnly(2000, 1, 1);
+
+        return base.OnInitializedAsync();
+    }
 
     // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
     private async Task AddDogListing()
@@ -114,14 +122,11 @@
             var bytes = new byte[file.Size];
 
             fs.Position = 0;
-
             await fs.ReadAsync(bytes);
 
             fs.Close();
-
             File.Delete(path);
 
-            Console.WriteLine("Ran function");
             DogListing.ThumbnailImage = bytes;
         }
     }

@@ -1,4 +1,5 @@
 ﻿@page "/admin/doglistings/edit"
+@rendermode InteractiveServer
 @using Microsoft.EntityFrameworkCore
 @using CanineConnect.Models
 @inject IDbContextFactory<CanineConnect.Data.CanineConnectContext> DbFactory
@@ -128,12 +129,25 @@ else
 
     private async Task HandleFileChange(InputFileChangeEventArgs e)
     {
-        var file = e.File;
-        if (file != null)
+        List<IBrowserFile> loadedFiles = new List<IBrowserFile>();
+
+        foreach (var file in e.GetMultipleFiles(1))
         {
-            using var stream = new MemoryStream();
-            await file.OpenReadStream().CopyToAsync(stream);
-            DogListing.ThumbnailImage = stream.ToArray();
+            var path = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+
+            await using var fs = new FileStream(path, FileMode.Create);
+
+            await file.OpenReadStream(file.Size).CopyToAsync(fs);
+
+            var bytes = new byte[file.Size];
+
+            fs.Position = 0;
+            await fs.ReadAsync(bytes);
+
+            fs.Close();
+            File.Delete(path);
+
+            DogListing.ThumbnailImage = bytes;
         }
     }
 }
