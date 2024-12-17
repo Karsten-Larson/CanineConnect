@@ -15,8 +15,8 @@
 <QuickGrid Class="table" Items="userMessages">
     <PropertyColumn Property="message => message.Text" />
     <PropertyColumn Property="message => message.Timestamp" />
-    <PropertyColumn Property="message => message.SenderId" />
-    <PropertyColumn Property="message => message.ReceiverId" />
+    <PropertyColumn Property="message => message.Sender.Email" Title="Sender Email" />
+    <PropertyColumn Property="message => message.Receiver.Email" Title=" Sender Email" />
 
     <TemplateColumn Context="message">
 
@@ -41,9 +41,12 @@
     protected override void OnInitialized()
     {
         context = DbFactory.CreateDbContext();
+        userMessages = context.Message
+            .Include(e => e.Sender)
+            .Include(e => e.Receiver)
+            .Where(e => e.SenderId == state.ActiveUser.Id || e.ReceiverId == state.ActiveUser.Id);
 
-        userMessages = context.Message.Where(e => e.SenderId == state.ActiveUser.Id || e.ReceiverId == state.ActiveUser.Id);
     }
-
+   
     public async ValueTask DisposeAsync() => await context.DisposeAsync();
 }

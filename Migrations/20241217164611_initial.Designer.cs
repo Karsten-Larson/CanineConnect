@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CanineConnect.Migrations
 {
     [DbContext(typeof(CanineConnectContext))]
-    [Migration("20241217030513_Initial")]
-    partial class Initial
+    [Migration("20241217164611_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
