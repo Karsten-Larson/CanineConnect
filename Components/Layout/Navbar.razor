@@ -60,10 +60,7 @@
                     @if (state.IsShelter())
                     {
                         <li><a class="dropdown-item" href="/profile/shelter/@state?.ActiveShelter.Id.ToString()">Shelter</a></li>
-                    } else
-                    {
-                        <li><a class="dropdown-item" href="/shelter">Shelter</a></li>
-                    }
+                    } 
                     <li><button class="dropdown-item" @onclick="SignOut">Sign Out</button></li>
                 </ul>
             </li>

@@ -7,9 +7,6 @@ namespace CanineConnect.Models
     {
         public int Id { get; set; }
         [Required]
-        public string? Subject { get; set; }
-
-        [Required]
         public string? Text { get; set; }
         [Required]
         public DateTime Timestamp { get; set; }
@@ -23,10 +20,5 @@ namespace CanineConnect.Models
         public int ReceiverId { get; set; }
         [DeleteBehavior(DeleteBehavior.Restrict)]
         public User? Receiver { get; set; }
-
-        [Required]
-        public string? ReceiverEmail { get; set; }
-        [Required]
-        public string? SenderEmail { get; set; }
     }
 }
