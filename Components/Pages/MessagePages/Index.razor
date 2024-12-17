@@ -3,26 +3,32 @@
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using CanineConnect.Models
 @using CanineConnect.Data
+@using StateObjects
 @implements IAsyncDisposable
+@inject State state
 @inject IDbContextFactory<CanineConnect.Data.CanineConnectContext> DbFactory
 
-<PageTitle>Index</PageTitle>
+<PageTitle>View Messages</PageTitle>
 
-<h1>Index</h1>
+<h1>View Messages</h1>
 
-<p>
-    <a href="messages/create">Create New</a>
-</p>
-
-<QuickGrid Class="table" Items="context.Message">
-    <PropertyColumn Property="message => message.Subject" />
+<QuickGrid Class="table" Items="userMessages">
     <PropertyColumn Property="message => message.Text" />
     <PropertyColumn Property="message => message.Timestamp" />
     <PropertyColumn Property="message => message.SenderId" />
     <PropertyColumn Property="message => message.ReceiverId" />
 
     <TemplateColumn Context="message">
-        <a href="@($"messages/edit?id={message.Id}")">Edit</a> |
+
+        @if (message.SenderId == state.ActiveUser.Id)
+        {
+            <span><a href="@($"sendmessage/{message.ReceiverId}")">Reply</a> |</span>
+            <span><a href="@($"messages/edit?id={message.Id}")">Edit</a> |</span>
+        }
+        else
+        {
+            <span><a href="@($"sendmessage/{message.SenderId}")">Reply</a> |</span>
+        }
         <a href="@($"messages/details?id={message.Id}")">Details</a> |
         <a href="@($"messages/delete?id={message.Id}")">Delete</a>
     </TemplateColumn>
@@ -30,10 +36,13 @@
 
 @code {
     private CanineConnectContext context = default!;
+    private IQueryable<Message>? userMessages;
 
     protected override void OnInitialized()
     {
         context = DbFactory.CreateDbContext();
+
+        userMessages = context.Message.Where(e => e.SenderId == state.ActiveUser.Id || e.ReceiverId == state.ActiveUser.Id);
     }
 
     public async ValueTask DisposeAsync() => await context.DisposeAsync();

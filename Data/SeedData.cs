@@ -17,6 +17,7 @@ public class SeedData
                 "Null CanineConnect Database");
         }
 
+        context.Message.ExecuteDelete();
         context.Event.ExecuteDelete();
         context.Shelter.ExecuteDelete();
         context.User.ExecuteDelete();
@@ -224,12 +225,36 @@ public class SeedData
             ThumbnailImage = File.ReadAllBytes("Data\\Assets\\pitbull.jpg")
         };
 
-        // Add to the database
-        context.Address.AddRange(address1, address2, address3, address4);
+        // Messages
+        Message message1 = new Message
+        {
+            Text = "Is the event still on?",
+            Timestamp = DateTime.Today,
+            Sender = user2,
+            Receiver = user1
+        };
+		Message message2 = new Message
+		{
+			Text = "Yes, you can plan on it!",
+			Timestamp = DateTime.Now,
+			Sender = user1,
+			Receiver = user2
+		};
+		Message message3 = new Message
+		{
+			Text = "Do the dogs need more food in the shelter?",
+			Timestamp = DateTime.Today,
+			Sender = user3,
+			Receiver = user1
+		};
+
+		// Add to the database
+		context.Address.AddRange(address1, address2, address3, address4);
         context.User.AddRange(admin, user1, user2, user3, user4);
         context.Shelter.AddRange(shelter1, shelter2, shelter3);
         context.Event.AddRange(event1, event2, event3, event4);
         context.DogListing.AddRange(listing1, listing2, listing3, listing4, listing5);
+        context.Message.AddRange(message1, message2, message3);
 
         context.SaveChanges();
     }
