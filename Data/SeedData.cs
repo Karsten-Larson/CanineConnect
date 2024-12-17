@@ -17,12 +17,12 @@ public class SeedData
                 "Null CanineConnect Database");
         }
 
-        context.Message.ExecuteDelete();
-        context.Event.ExecuteDelete();
-        context.Shelter.ExecuteDelete();
-        context.User.ExecuteDelete();
-        context.Address.ExecuteDelete();
-        context.DogListing.ExecuteDelete();
+        //context.Message.ExecuteDelete();
+        //context.Event.ExecuteDelete();
+        //context.Shelter.ExecuteDelete();
+        //context.User.ExecuteDelete();
+        //context.Address.ExecuteDelete();
+        //context.DogListing.ExecuteDelete();
 
         if (context.User.Any() || context.Address.Any() || context.Event.Any() || context.Shelter.Any() || context.DogListing.Any())
         {
@@ -69,7 +69,7 @@ public class SeedData
             FirstName = "Admin",
             LastName = "Admin",
             Email = "admin",
-            Password = "1234",
+            Password = "12345678",
             Age = DateOnly.FromDateTime(DateTime.Now),
             HomeAddress = address1,
         };
@@ -78,7 +78,7 @@ public class SeedData
             FirstName = "Anne",
             LastName = "Denton",
             Email = "anne.denton@ndsu.edu",
-            Password = "1234",
+            Password = "12345678",
             Age = new DateOnly(2004, 10, 27),
             HomeAddress = address1,
         };
@@ -87,7 +87,7 @@ public class SeedData
             FirstName = "Ken",
             LastName = "Magel",
             Email = "ken.magel@ndsu.edu",
-            Password = "1234",
+            Password = "12345678",
             Age = new DateOnly(2004, 10, 27),
             HomeAddress = address1,
         };
@@ -96,7 +96,7 @@ public class SeedData
             FirstName = "James",
             LastName = "Dean",
             Email = "james.dean@ndsu.edu",
-            Password = "abcd",
+            Password = "12345678",
             Age = new DateOnly(2005, 1, 17),
             HomeAddress = address2,
         };
@@ -105,7 +105,7 @@ public class SeedData
             FirstName = "Oksana",
             LastName = "Myronovych",
             Email = "oksana.myronovych@ndsu.edu",
-            Password = "2222",
+            Password = "12345678",
             Age = new DateOnly(1970, 12, 2),
             HomeAddress = address3,
         };
