@@ -3,25 +3,23 @@
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using CanineConnect.Models
 @using CanineConnect.Data
+@using StateObjects
 @implements IAsyncDisposable
+@inject State state
 @inject IDbContextFactory<CanineConnect.Data.CanineConnectContext> DbFactory
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Applications</PageTitle>
 
-<h1>Index</h1>
+<h1>Applications</h1>
 
-<p>
-    <a href="applications/create">Create New</a>
-</p>
-
-<QuickGrid Class="table" Items="context.Application">
+<QuickGrid Class="table" Items="applications">
     <PropertyColumn Property="application => application.Approved" />
     <PropertyColumn Property="application => application.Timestamp" />
     <PropertyColumn Property="application => application.DogListingId" />
     <PropertyColumn Property="application => application.UserId" />
-    <PropertyColumn Property="application => application.salary" />
-    <PropertyColumn Property="application => application.numb_of_animals" />
-    <PropertyColumn Property="application => application.dependents" />
+    <PropertyColumn Property="application => application.Salary" />
+    <PropertyColumn Property="application => application.Animals" />
+    <PropertyColumn Property="application => application.Dependents" />
 
     <TemplateColumn Context="application">
         <a href="@($"applications/edit?id={application.Id}")">Edit</a> |
@@ -32,10 +30,13 @@
 
 @code {
     private CanineConnectContext context = default!;
+    private IQueryable<Application>? applications;
 
     protected override void OnInitialized()
     {
         context = DbFactory.CreateDbContext();
+
+        applications = context.Application.Where(e => e.UserId == state.ActiveUser.Id || e.DogListing.Shelter.UserId == state.ActiveUser.Id);
     }
 
     public async ValueTask DisposeAsync() => await context.DisposeAsync();

@@ -42,6 +42,21 @@ else
                     <InputNumber id="userid" @bind-Value="Application.UserId" class="form-control" aria-required="true"/>
                     <ValidationMessage For="() => Application.UserId" class="text-danger" />
                 </div>
+                <div class="mb-3">
+                    <label for="salary" class="form-label">Salary:</label>
+                    <InputNumber id="salary" @bind-Value="Application.Salary" class="form-control" />
+                    <ValidationMessage For="() => Application.Salary" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="animals" class="form-label">Animals:</label>
+                    <InputNumber id="animals" @bind-Value="Application.Animals" class="form-control" />
+                    <ValidationMessage For="() => Application.Animals" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="dependents" class="form-label">Dependents:</label>
+                    <InputNumber id="dependents" @bind-Value="Application.Dependents" class="form-control" />
+                    <ValidationMessage For="() => Application.Dependents" class="text-danger" />
+                </div>
                 <button type="submit" class="btn btn-primary">Save</button>
             </EditForm>
         </div>
@@ -49,7 +64,7 @@ else
 }
 
 <div>
-    <a href="/applications">Back to List</a>
+    <a href="/admin/applications">Back to List</a>
 </div>
 
 @code {

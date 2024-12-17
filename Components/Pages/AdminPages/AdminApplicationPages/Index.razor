@@ -19,6 +19,9 @@
     <PropertyColumn Property="application => application.Timestamp" />
     <PropertyColumn Property="application => application.DogListingId" />
     <PropertyColumn Property="application => application.UserId" />
+    <PropertyColumn Property="application => application.Salary" />
+    <PropertyColumn Property="application => application.Animals" />
+    <PropertyColumn Property="application => application.Dependents" />
 
     <TemplateColumn Context="application">
         <a href="@($"admin/applications/edit?id={application.Id}")">Edit</a> |

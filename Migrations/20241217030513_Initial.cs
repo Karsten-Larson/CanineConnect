@@ -59,13 +59,10 @@ namespace CanineConnect.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Subject = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     SenderId = table.Column<int>(type: "int", nullable: false),
-                    ReceiverId = table.Column<int>(type: "int", nullable: false),
-                    ReceiverEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SenderEmail = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ReceiverId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -143,7 +140,8 @@ namespace CanineConnect.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Date = table.Column<DateOnly>(type: "date", nullable: false),
+                    Time = table.Column<TimeOnly>(type: "time", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LocationId = table.Column<int>(type: "int", nullable: false),
                     HostId = table.Column<int>(type: "int", nullable: false)
@@ -175,9 +173,9 @@ namespace CanineConnect.Migrations
                     Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DogListingId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    salary = table.Column<int>(type: "int", nullable: true),
-                    numb_of_animals = table.Column<int>(type: "int", nullable: true),
-                    dependents = table.Column<int>(type: "int", nullable: true)
+                    Salary = table.Column<int>(type: "int", nullable: true),
+                    Animals = table.Column<int>(type: "int", nullable: true),
+                    Dependents = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {

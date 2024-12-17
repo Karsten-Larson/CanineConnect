@@ -17,8 +17,8 @@ namespace CanineConnect.Models
         [Required]
         public int UserId { get; set; }
         public User? User { get; set; }
-        public int? salary { get; set; }
-        public int? numb_of_animals { get; set; }
-        public int? dependents { get; set; }
+        public int? Salary { get; set; }
+        public int? Animals { get; set; }
+        public int? Dependents { get; set; }
     }
 }

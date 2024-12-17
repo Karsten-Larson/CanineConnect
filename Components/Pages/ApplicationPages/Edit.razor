@@ -1,8 +1,10 @@
 ﻿@page "/applications/edit"
 @using Microsoft.EntityFrameworkCore
 @using CanineConnect.Models
+@using StateObjects
 @inject IDbContextFactory<CanineConnect.Data.CanineConnectContext> DbFactory
 @inject NavigationManager NavigationManager
+@inject State state
 
 <PageTitle>Edit</PageTitle>
 
@@ -20,32 +22,30 @@ else
         <div class="col-md-4">
             <EditForm method="post" Model="Application" OnValidSubmit="UpdateApplication" FormName="edit" Enhance>
                 <DataAnnotationsValidator />
-                <ValidationSummary role="alert"/>
+                <ValidationSummary role="alert" />
                 <input type="hidden" name="Application.Id" value="@Application.Id" />
-                <div class="mb-3">
-                    <label for="approved" class="form-label">Approved:</label>
-                    <InputCheckbox id="approved" @bind-Value="Application.Approved" class="form-check-input" aria-required="true"/>
-                    <ValidationMessage For="() => Application.Approved" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="timestamp" class="form-label">Timestamp:</label>
-                    <InputDate id="timestamp" @bind-Value="Application.Timestamp" class="form-control" aria-required="true"/>
-                    <ValidationMessage For="() => Application.Timestamp" class="text-danger" />
-                </div>
+                @if (state.IsShelter())
+                {
+                    <div class="mb-3">
+                        <label for="approved" class="form-label">Approved:</label>
+                        <InputCheckbox id="approved" @bind-Value="Application.Approved" class="form-check-input" aria-required="true" />
+                        <ValidationMessage For="() => Application.Approved" class="text-danger" />
+                    </div>
+                }
                 <div class="mb-3">
                     <label for="salary" class="form-label">salary:</label>
-                    <InputNumber id="salary" @bind-Value="Application.salary" class="form-control" />
-                    <ValidationMessage For="() => Application.salary" class="text-danger" />
+                    <InputNumber id="salary" @bind-Value="Application.Salary" class="form-control" />
+                    <ValidationMessage For="() => Application.Salary" class="text-danger" />
                 </div>
                 <div class="mb-3">
-                    <label for="numb_of_animals" class="form-label">numb_of_animals:</label>
-                    <InputNumber id="numb_of_animals" @bind-Value="Application.numb_of_animals" class="form-control" />
-                    <ValidationMessage For="() => Application.numb_of_animals" class="text-danger" />
+                    <label for="numb_of_animals" class="form-label">Number of Pets:</label>
+                    <InputNumber id="numb_of_animals" @bind-Value="Application.Animals" class="form-control" />
+                    <ValidationMessage For="() => Application.Animals" class="text-danger" />
                 </div>
                 <div class="mb-3">
-                    <label for="dependents" class="form-label">dependents:</label>
-                    <InputNumber id="dependents" @bind-Value="Application.dependents" class="form-control" />
-                    <ValidationMessage For="() => Application.dependents" class="text-danger" />
+                    <label for="dependents" class="form-label">Dependents:</label>
+                    <InputNumber id="dependents" @bind-Value="Application.DogListing" class="form-control" />
+                    <ValidationMessage For="() => Application.Dependents" class="text-danger" />
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>
             </EditForm>
