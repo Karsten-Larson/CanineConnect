@@ -18,6 +18,58 @@
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" role="alert"/>
             <div class="mb-3">
+                <label for="firstnameid" class="form-label">First Name:</label>
+                <InputText id="firstnameid" @bind-Value="Application.User.FirstName" class="form-control" aria-required="true" />
+                <ValidationMessage For="() => Application.User.FirstName" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="lastnameid" class="form-label">Last Name:</label>
+                <InputText id="lastnameid" @bind-Value="Application.User.LastName" class="form-control" aria-required="true" />
+                <ValidationMessage For="() => Application.User.LastName" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="emailid" class="form-label">Email:</label>
+                <InputText id="emailid" @bind-Value="Application.User.Email" class="form-control" aria-required="true" />
+                <ValidationMessage For="() => Application.User.Email" class="text-danger" />
+            </div>
+            <!--
+            <div class="mb-3">
+                <label for="addressstreetid" class="form-label">Street:</label>
+                <InputText id="addressstreetid" @bind-Value="Application.User.HomeAddress.Street" class="form-control" aria-required="true" />
+                <ValidationMessage For="() => Application.User.HomeAddress.Street" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="addresscityid" class="form-label">City:</label>
+                <InputText id="addresscityid" @bind-Value="Application.User.HomeAddress.City" class="form-control" aria-required="true" />
+                <ValidationMessage For="() => Application.User.HomeAddress.City" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="addressstateid" class="form-label">State:</label>
+                <InputText id="addressstateid" @bind-Value="Application.User.HomeAddress.State" class="form-control" aria-required="true" />
+                <ValidationMessage For="() => Application.User.HomeAddress.State" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="addresspostalid" class="form-label">Postal Code:</label>
+                <InputText id="addresspostalid" @bind-Value="Application.User.HomeAddress.PostalCode" class="form-control" aria-required="true" />
+                <ValidationMessage For="() => Application.User.HomeAddress.PostalCode" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="addresscountryid" class="form-label">Country:</label>
+                <InputText id="addresscountryid" @bind-Value="Application.User.HomeAddress.Country" class="form-control" aria-required="true" />
+                <ValidationMessage For="() => Application.User.HomeAddress.Country" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="ageid" class="form-label">Age:</label>
+                <InputDate id="ageid" @bind-Value="Application.User.Age" class="form-control" aria-required="true" />
+                <ValidationMessage For="() => Application.User.Age" class="text-danger" />
+            </div>--->
+            <div class="mb-3">
+                <label for="phonenumberid" class="form-label">Phone Number:</label>
+                <InputText id="phonenumberid" @bind-Value="Application.User.Phone" class="form-control" aria-required="true" />
+                <ValidationMessage For="() => Application.User.Phone" class="text-danger" />
+            </div>
+            
+            <div class="mb-3">
                 <label for="salary" class="form-label">Salary:</label> 
                 <InputNumber id="salary" @bind-Value="Application.Salary" class="form-control" /> 
                 <ValidationMessage For="() => Application.Salary" class="text-danger" /> 
@@ -54,6 +106,7 @@
     {
         Application.DogListingId = (int) DogID;
         Application.UserId = state.ActiveUser.Id;
+        //Application.User = state.ActiveUser;
 
         await base.OnInitializedAsync();
     }
